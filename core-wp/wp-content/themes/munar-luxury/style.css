@@ -1,0 +1,143 @@
+/*
+Theme Name: Munar Luxury Atelier
+Theme URI: https://github.com/lynnaz/Munar_Ecommerce
+Author: Munar Haute Couture & Engineering Team
+Author URI: https://nazlinemwita.co.ke
+Description: An ultra-attractive, bespoke luxury fashion and haute couture e-commerce WordPress theme with native WooCommerce support, Daraja M-Pesa checkout, interactive lookbooks, and high-fashion editorial styling.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: munar-luxury
+Tags: e-commerce, luxury, fashion, editorial, woocommerce, m-pesa, responsive-layout, custom-menu, featured-images
+*/
+
+:root {
+  --munar-black: #0d0d0d;
+  --munar-dark: #141414;
+  --munar-cream: #faf7f2;
+  --munar-sand: #f0ebe1;
+  --munar-gold: #c5a880;
+  --munar-gold-dark: #9d815d;
+  --munar-border: #e6dfd5;
+  --munar-text-muted: #736b63;
+  --font-editorial: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Base resets & typography */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--munar-cream);
+  color: var(--munar-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-serif, .editorial-heading {
+  font-family: var(--font-editorial);
+  letter-spacing: -0.02em;
+}
+
+.luxury-gold-gradient {
+  background: linear-gradient(135deg, #d4af37 0%, #c5a880 50%, #aa824a 100%);
+}
+
+.luxury-glass {
+  background: rgba(250, 247, 242, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark-luxury-glass {
+  background: rgba(13, 13, 13, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Subtle luxury button styling */
+.btn-munar-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--munar-black);
+  color: #ffffff;
+  padding: 0.875rem 2rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--munar-black);
+}
+
+.btn-munar-primary:hover {
+  background-color: transparent;
+  color: var(--munar-black);
+}
+
+.btn-munar-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--munar-gold);
+  color: #ffffff;
+  padding: 0.875rem 2rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--munar-gold);
+}
+
+.btn-munar-gold:hover {
+  background-color: var(--munar-gold-dark);
+  border-color: var(--munar-gold-dark);
+}
+
+.btn-munar-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--munar-black);
+  padding: 0.875rem 2rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--munar-black);
+}
+
+.btn-munar-outline:hover {
+  background-color: var(--munar-black);
+  color: #ffffff;
+}
+
+/* Image reveal animation helper */
+.luxury-image-zoom {
+  overflow: hidden;
+}
+.luxury-image-zoom img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.luxury-image-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--munar-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--munar-gold);
+}
