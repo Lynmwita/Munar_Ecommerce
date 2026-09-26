@@ -268,7 +268,19 @@ function munar_init_mpesa_gateway() {
                 return $response;
             }
 
-            $body = json_decode( wp_remote_retrieve_body( $response ), true );
+            $response_code = wp_remote_retrieve_response_code( $response );
+            $raw_body      = wp_remote_retrieve_body( $response );
+            $body          = json_decode( $raw_body, true );
+
+            if ( $response_code !== 200 || ! empty( $body['errorCode'] ) ) {
+                $err_msg = ! empty( $body['errorMessage'] ) ? $body['errorMessage'] : ( ! empty( $body['ResponseDescription'] ) ? $body['ResponseDescription'] : 'HTTP Error ' . $response_code );
+                return new WP_Error( 'daraja_api_error', $err_msg . ' (Code: ' . ( $body['errorCode'] ?? $response_code ) . ')' );
+            }
+
+            if ( isset( $body['ResponseCode'] ) && $body['ResponseCode'] !== '0' ) {
+                return new WP_Error( 'stk_rejected', $body['ResponseDescription'] ?? 'Request rejected by Safaricom' );
+            }
+
             return $body;
         }
 
