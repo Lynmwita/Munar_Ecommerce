@@ -102,6 +102,9 @@ function munar_luxury_enqueue_assets() {
                         munar: {
                             black: '#0D0D0D',
                             dark: '#141414',
+                            mocha: '#4A2F24',
+                            mochaDark: '#382218',
+                            linen: '#EBDCCB',
                             cream: '#FAF7F2',
                             sand: '#F0EBE1',
                             gold: '#C5A880',

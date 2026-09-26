@@ -3,7 +3,7 @@
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <link rel="icon" type="image/svg+xml" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.svg' ); ?>">
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( 'bg-munar-cream text-munar-black antialiased selection:bg-munar-gold selection:text-white' ); ?>>
@@ -28,14 +28,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
 
-                <!-- Left: Brand Logo -->
+                <!-- Left: Brand Logo Lockup -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="group flex flex-col items-start">
-                        <span class="font-editorial text-3xl sm:text-4xl font-light tracking-[0.18em] text-munar-black group-hover:text-munar-gold transition-colors duration-300">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="munar-brand-lockup group" aria-label="Munar - Quiet Luxe">
+                        <span class="brand-title font-editorial text-3xl sm:text-4xl font-light tracking-[0.16em] text-munar-mocha group-hover:text-munar-gold transition-colors duration-300">
                             MUNAR
                         </span>
-                        <span class="text-[9px] uppercase tracking-[0.35em] text-munar-muted -mt-1 font-sans">
-                            Atelier &bull; Nairobi
+                        <span class="brand-tagline text-[8px] sm:text-[9px] uppercase tracking-[0.22em] font-bold text-munar-mocha/85 group-hover:text-munar-gold group-hover:opacity-100 self-end -mt-0.5 pr-0.5 transition-all duration-300">
+                            QUIET, LUXE
                         </span>
                     </a>
                 </div>
@@ -136,7 +136,10 @@
         <div class="absolute inset-y-0 left-0 max-w-xs w-full bg-munar-cream shadow-2xl p-6 flex flex-col justify-between transform -translate-x-full transition-transform duration-300" id="mobile-nav-content">
             <div>
                 <div class="flex items-center justify-between pb-6 border-b border-munar-border">
-                    <span class="font-editorial text-2xl tracking-widest">MUNAR</span>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="munar-brand-lockup">
+                        <span class="brand-title font-editorial text-2xl tracking-[0.16em] text-munar-mocha">MUNAR</span>
+                        <span class="brand-tagline text-[8px] uppercase tracking-[0.22em] font-bold text-munar-mocha/80 self-end -mt-0.5 pr-0.5">QUIET, LUXE</span>
+                    </a>
                     <button id="mobile-nav-close" class="p-1 hover:text-munar-gold">
                         <i data-lucide="x" class="w-6 h-6"></i>
                     </button>

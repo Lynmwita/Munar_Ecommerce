@@ -17,6 +17,9 @@ Tags: e-commerce, luxury, fashion, editorial, woocommerce, m-pesa, responsive-la
 :root {
   --munar-black: #0d0d0d;
   --munar-dark: #141414;
+  --munar-mocha: #4a2f24;
+  --munar-mocha-dark: #382218;
+  --munar-linen: #ebdccb;
   --munar-cream: #faf7f2;
   --munar-sand: #f0ebe1;
   --munar-gold: #c5a880;
@@ -25,6 +28,75 @@ Tags: e-commerce, luxury, fashion, editorial, woocommerce, m-pesa, responsive-la
   --munar-text-muted: #736b63;
   --font-editorial: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Munar Signature Brand Lockup (MUNAR + bottom-right QUIET, LUXE) */
+.munar-brand-lockup {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.munar-brand-lockup .brand-title {
+  font-family: var(--font-editorial);
+  font-size: 2.25rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 0.9;
+  color: var(--munar-mocha);
+  transition: color 0.3s ease;
+}
+
+.munar-brand-lockup .brand-tagline {
+  font-family: var(--font-sans);
+  font-size: 0.525rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--munar-mocha);
+  opacity: 0.85;
+  align-self: flex-end;
+  margin-top: 0.3rem;
+  margin-right: 0.15rem;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.munar-brand-lockup:hover .brand-title {
+  color: var(--munar-gold);
+}
+
+.munar-brand-lockup:hover .brand-tagline {
+  color: var(--munar-gold);
+  opacity: 1;
+}
+
+/* Light variant of the lockup for dark backgrounds */
+.munar-brand-lockup.brand-light .brand-title {
+  color: var(--munar-linen);
+}
+
+.munar-brand-lockup.brand-light .brand-tagline {
+  color: var(--munar-linen);
+  opacity: 0.9;
+}
+
+.munar-brand-lockup.brand-light:hover .brand-title,
+.munar-brand-lockup.brand-light:hover .brand-tagline {
+  color: var(--munar-gold);
+}
+
+/* Circular Mocha Emblem Badge */
+.munar-emblem-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--munar-mocha);
+  color: var(--munar-linen);
+  border: 1px solid rgba(235, 220, 203, 0.25);
+  box-shadow: 0 4px 20px rgba(74, 47, 36, 0.25);
 }
 
 /* Base resets & typography */

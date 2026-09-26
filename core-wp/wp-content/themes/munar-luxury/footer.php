@@ -6,8 +6,11 @@
                 <!-- Col 1 & 2: Brand Heritage & Newsletter -->
                 <div class="lg:col-span-2 space-y-6">
                     <div class="space-y-2">
-                        <span class="font-editorial text-3xl sm:text-4xl tracking-[0.2em] text-white">MUNAR</span>
-                        <p class="text-xs uppercase tracking-[0.3em] text-munar-gold">Modern African Luxury Atelier</p>
+                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="munar-brand-lockup brand-light group inline-block" aria-label="Munar - Quiet Luxe">
+                            <span class="brand-title font-editorial text-3xl sm:text-4xl tracking-[0.16em] text-munar-linen group-hover:text-munar-gold transition-colors">MUNAR</span>
+                            <span class="brand-tagline text-[8.5px] uppercase tracking-[0.22em] font-bold text-munar-linen/80 group-hover:text-munar-gold self-end block text-right pr-0.5 transition-colors">QUIET, LUXE</span>
+                        </a>
+                        <p class="text-xs uppercase tracking-[0.25em] text-munar-gold font-medium pt-1">Modern African Luxury Atelier</p>
                     </div>
                     <p class="text-sm text-munar-sand/70 font-light leading-relaxed max-w-sm">
                         Crafting timeless silhouettes and bespoke sartorial garments for the modern tastemaker. Hand-tailored in Nairobi with ethical heritage materials.
