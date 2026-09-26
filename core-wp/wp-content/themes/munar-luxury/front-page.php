@@ -54,7 +54,7 @@ get_header(); ?>
                             Full-grain vegetable-tanned leather accented with custom cast brass hardware inspired by Kenyan heritage geometry.
                         </p>
                         <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a href="<?php echo esc_url( home_url('/?category=leather-bags') ); ?>" class="btn-munar-gold w-full sm:w-auto">
+                            <a href="<?php echo esc_url( munar_get_cat_url('leather-goods') ); ?>" class="btn-munar-gold w-full sm:w-auto">
                                 Shop Leather Bags
                             </a>
                         </div>
@@ -76,7 +76,7 @@ get_header(); ?>
                             Unconstructed linen blazers, safari jackets, and precision-cut trousers built for equatorial distinction.
                         </p>
                         <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a href="<?php echo esc_url( home_url('/?category=men') ); ?>" class="btn-munar-gold w-full sm:w-auto">
+                            <a href="<?php echo esc_url( munar_get_cat_url('mens-sartorial') ); ?>" class="btn-munar-gold w-full sm:w-auto">
                                 Discover Men's Collection
                             </a>
                         </div>
@@ -100,56 +100,56 @@ get_header(); ?>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
             <!-- Category 1: Women's Atelier -->
-            <a href="<?php echo esc_url( home_url('/?category=women') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
+            <a href="<?php echo esc_url( munar_get_cat_url('womens-atelier') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
                 <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80" alt="Women's Atelier" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.85] group-hover:brightness-95">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 p-6 flex flex-col justify-end text-white">
                     <span class="text-[10px] uppercase tracking-[0.25em] text-munar-gold mb-1">Couture</span>
                     <h3 class="font-editorial text-2xl font-light tracking-wide group-hover:translate-x-1 transition-transform">Women's Wear</h3>
                     <p class="text-xs text-munar-sand/70 font-light mt-1 flex items-center space-x-1">
-                        <span>Explore 24 Garments</span>
+                        <span>Explore Collection</span>
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </p>
                 </div>
             </a>
 
             <!-- Category 2: Men's Sartorial -->
-            <a href="<?php echo esc_url( home_url('/?category=men') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
+            <a href="<?php echo esc_url( munar_get_cat_url('mens-sartorial') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
                 <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=900&q=80" alt="Men's Sartorial" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.85] group-hover:brightness-95">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 p-6 flex flex-col justify-end text-white">
                     <span class="text-[10px] uppercase tracking-[0.25em] text-munar-gold mb-1">Tailoring</span>
                     <h3 class="font-editorial text-2xl font-light tracking-wide group-hover:translate-x-1 transition-transform">Men's Sartorial</h3>
                     <p class="text-xs text-munar-sand/70 font-light mt-1 flex items-center space-x-1">
-                        <span>Explore 18 Pieces</span>
+                        <span>Explore Pieces</span>
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </p>
                 </div>
             </a>
 
             <!-- Category 3: Haute Leather Bags -->
-            <a href="<?php echo esc_url( home_url('/?category=leather-bags') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
+            <a href="<?php echo esc_url( munar_get_cat_url('leather-goods') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
                 <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=80" alt="Haute Leather Bags" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.85] group-hover:brightness-95">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 p-6 flex flex-col justify-end text-white">
                     <span class="text-[10px] uppercase tracking-[0.25em] text-munar-gold mb-1">Accessories</span>
                     <h3 class="font-editorial text-2xl font-light tracking-wide group-hover:translate-x-1 transition-transform">Haute Bags</h3>
                     <p class="text-xs text-munar-sand/70 font-light mt-1 flex items-center space-x-1">
-                        <span>Explore 12 Artifacts</span>
+                        <span>Explore Artifacts</span>
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </p>
                 </div>
             </a>
 
-            <!-- Category 4: Bespoke Fitting -->
-            <a href="<?php echo esc_url( home_url('/bespoke-appointments') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
-                <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=80" alt="Bespoke Fitting" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.85] group-hover:brightness-95">
+            <!-- Category 4: Fine Jewelry & Timepieces -->
+            <a href="<?php echo esc_url( munar_get_cat_url('fine-jewelry') ); ?>" class="group relative block aspect-[4/5] overflow-hidden bg-munar-dark">
+                <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=80" alt="Fine Jewelry & Timepieces" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.85] group-hover:brightness-95">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 p-6 flex flex-col justify-end text-white">
-                    <span class="text-[10px] uppercase tracking-[0.25em] text-munar-gold mb-1">VIP Studio</span>
-                    <h3 class="font-editorial text-2xl font-light tracking-wide group-hover:translate-x-1 transition-transform">Bespoke Fitting</h3>
+                    <span class="text-[10px] uppercase tracking-[0.25em] text-munar-gold mb-1">Haute Joaillerie</span>
+                    <h3 class="font-editorial text-2xl font-light tracking-wide group-hover:translate-x-1 transition-transform">Fine Jewelry</h3>
                     <p class="text-xs text-munar-sand/70 font-light mt-1 flex items-center space-x-1">
-                        <span>Book Appointment</span>
+                        <span>Explore Adornments</span>
                         <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </p>
                 </div>
@@ -158,7 +158,7 @@ get_header(); ?>
         </div>
     </section>
 
-    <!-- 3. Featured Runway Pieces (High-Fashion Garment Cards) -->
+    <!-- 3. Featured Runway Pieces (Dynamic Haute Couture Catalog) -->
     <section class="py-20 bg-munar-sand/40 border-y border-munar-border/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
@@ -167,109 +167,85 @@ get_header(); ?>
                     <h2 class="font-editorial text-3xl sm:text-4xl text-munar-black font-light tracking-wide">Featured Runway Pieces</h2>
                 </div>
                 <div class="flex items-center space-x-3 text-xs uppercase tracking-[0.2em]">
-                    <a href="<?php echo esc_url( function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : '#' ); ?>" class="btn-munar-outline py-2.5 px-5 text-[11px]">
+                    <a href="<?php echo esc_url( function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/') ); ?>" class="btn-munar-outline py-2.5 px-5 text-[11px]">
                         View Entire Catalog
                     </a>
                 </div>
             </div>
 
-            <!-- Product Grid -->
+            <!-- Dynamic Product Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                
-                <!-- Product Card 1 -->
-                <div class="group flex flex-col bg-white border border-munar-border/60 overflow-hidden transition-all duration-300 hover:shadow-lg">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-munar-sand">
-                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80" alt="Sculptural Silk Evening Gown" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <span class="absolute top-3 left-3 bg-munar-black text-white text-[9px] uppercase tracking-widest px-2 py-0.5 font-medium">New Drop</span>
-                        <button class="absolute top-3 right-3 bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full text-munar-dark hover:text-red-600 transition-colors shadow-sm" aria-label="Add to Wishlist">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <span class="text-[10px] uppercase tracking-widest text-munar-muted">Women's Couture</span>
-                            <h3 class="font-editorial text-xl font-normal text-munar-black mt-0.5">Sculptural Silk Evening Gown</h3>
-                        </div>
-                        <div class="pt-2 border-t border-munar-border/40 flex items-center justify-between">
-                            <span class="font-sans font-semibold text-sm text-munar-black">KSh 38,500</span>
-                            <span class="text-[10px] uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-medium">In Atelier</span>
-                        </div>
-                        <button class="w-full btn-munar-primary text-[11px] py-2.5">
-                            Add to Bag
-                        </button>
-                    </div>
-                </div>
+                <?php
+                $featured_query = new WP_Query( array(
+                    'post_type'      => 'product',
+                    'posts_per_page' => 8,
+                    'orderby'        => 'date',
+                    'order'          => 'DESC',
+                ) );
 
-                <!-- Product Card 2 -->
-                <div class="group flex flex-col bg-white border border-munar-border/60 overflow-hidden transition-all duration-300 hover:shadow-lg">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-munar-sand">
-                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80" alt="Safari Luxe Tailored Jacket" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <button class="absolute top-3 right-3 bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full text-munar-dark hover:text-red-600 transition-colors shadow-sm" aria-label="Add to Wishlist">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <span class="text-[10px] uppercase tracking-widest text-munar-muted">Men's Sartorial</span>
-                            <h3 class="font-editorial text-xl font-normal text-munar-black mt-0.5">Safari Luxe Tailored Jacket</h3>
+                if ( $featured_query->have_posts() ) :
+                    while ( $featured_query->have_posts() ) :
+                        $featured_query->the_post();
+                        global $product;
+                        ?>
+                        <div class="group flex flex-col bg-white border border-munar-border/60 overflow-hidden transition-all duration-300 hover:shadow-lg">
+                            <div class="relative aspect-[3/4] overflow-hidden bg-munar-sand">
+                                <a href="<?php echo esc_url( get_permalink() ); ?>" class="block w-full h-full">
+                                    <?php
+                                    $hero_img = get_post_meta( get_the_ID(), '_munar_hero_image_url', true );
+                                    if ( has_post_thumbnail() ) {
+                                        the_post_thumbnail( 'woocommerce_thumbnail', array( 'class' => 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105' ) );
+                                    } elseif ( ! empty( $hero_img ) ) {
+                                        echo '<img src="' . esc_url( $hero_img ) . '" alt="' . esc_attr( get_the_title() ) . '" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />';
+                                    } else {
+                                        echo '<div class="w-full h-full flex items-center justify-center bg-munar-sand text-munar-muted"><i data-lucide="image" class="w-8 h-8 opacity-40"></i></div>';
+                                    }
+                                    ?>
+                                </a>
+                                <?php if ( $product && $product->is_on_sale() ) : ?>
+                                    <span class="absolute top-3 left-3 bg-munar-gold text-white text-[9px] uppercase tracking-widest px-2 py-0.5 font-semibold">Special Offer</span>
+                                <?php else : ?>
+                                    <span class="absolute top-3 left-3 bg-munar-black text-white text-[9px] uppercase tracking-widest px-2 py-0.5 font-medium">New Drop</span>
+                                <?php endif; ?>
+                                <button class="absolute top-3 right-3 bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full text-munar-dark hover:text-red-600 transition-colors shadow-sm wishlist-btn" aria-label="Add to Wishlist" data-product-id="<?php echo esc_attr( get_the_ID() ); ?>">
+                                    <i data-lucide="heart" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                                <div>
+                                    <div class="text-[10px] uppercase tracking-widest text-munar-muted">
+                                        <?php echo wc_get_product_category_list( get_the_ID(), ', ', '', '' ); ?>
+                                    </div>
+                                    <h3 class="font-editorial text-xl font-normal text-munar-black mt-0.5">
+                                        <a href="<?php echo esc_url( get_permalink() ); ?>" class="hover:text-munar-gold transition-colors">
+                                            <?php the_title(); ?>
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="pt-2 border-t border-munar-border/40 flex items-center justify-between">
+                                    <span class="font-sans font-semibold text-sm text-munar-black">
+                                        <?php echo $product ? $product->get_price_html() : ''; ?>
+                                    </span>
+                                    <span class="text-[10px] uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-medium">
+                                        <?php echo ( $product && $product->is_in_stock() ) ? 'In Atelier' : 'Bespoke Order'; ?>
+                                    </span>
+                                </div>
+                                <div class="pt-1">
+                                    <?php
+                                    if ( $product ) {
+                                        woocommerce_template_loop_add_to_cart( array(
+                                            'class' => 'w-full btn-munar-primary text-[11px] py-2.5 text-center block'
+                                        ) );
+                                    }
+                                    ?>
+                                </div>
+                            </div>
                         </div>
-                        <div class="pt-2 border-t border-munar-border/40 flex items-center justify-between">
-                            <span class="font-sans font-semibold text-sm text-munar-black">KSh 42,000</span>
-                            <span class="text-[10px] uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-medium">In Atelier</span>
-                        </div>
-                        <button class="w-full btn-munar-primary text-[11px] py-2.5">
-                            Add to Bag
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="group flex flex-col bg-white border border-munar-border/60 overflow-hidden transition-all duration-300 hover:shadow-lg">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-munar-sand">
-                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80" alt="Handcrafted Savanna Tote Bag" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <span class="absolute top-3 left-3 bg-munar-gold text-white text-[9px] uppercase tracking-widest px-2 py-0.5 font-medium">Handcrafted</span>
-                        <button class="absolute top-3 right-3 bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full text-munar-dark hover:text-red-600 transition-colors shadow-sm" aria-label="Add to Wishlist">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <span class="text-[10px] uppercase tracking-widest text-munar-muted">Haute Leather</span>
-                            <h3 class="font-editorial text-xl font-normal text-munar-black mt-0.5">Handcrafted Savanna Tote</h3>
-                        </div>
-                        <div class="pt-2 border-t border-munar-border/40 flex items-center justify-between">
-                            <span class="font-sans font-semibold text-sm text-munar-black">KSh 29,000</span>
-                            <span class="text-[10px] uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded font-medium">3 Remaining</span>
-                        </div>
-                        <button class="w-full btn-munar-primary text-[11px] py-2.5">
-                            Add to Bag
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="group flex flex-col bg-white border border-munar-border/60 overflow-hidden transition-all duration-300 hover:shadow-lg">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-munar-sand">
-                        <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80" alt="Pleated Ivory Midi Dress" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <button class="absolute top-3 right-3 bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full text-munar-dark hover:text-red-600 transition-colors shadow-sm" aria-label="Add to Wishlist">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <span class="text-[10px] uppercase tracking-widest text-munar-muted">Women's Couture</span>
-                            <h3 class="font-editorial text-xl font-normal text-munar-black mt-0.5">Pleated Ivory Midi Dress</h3>
-                        </div>
-                        <div class="pt-2 border-t border-munar-border/40 flex items-center justify-between">
-                            <span class="font-sans font-semibold text-sm text-munar-black">KSh 32,500</span>
-                            <span class="text-[10px] uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-medium">In Atelier</span>
-                        </div>
-                        <button class="w-full btn-munar-primary text-[11px] py-2.5">
-                            Add to Bag
-                        </button>
-                    </div>
-                </div>
-
+                        <?php
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+                ?>
             </div>
         </div>
     </section>

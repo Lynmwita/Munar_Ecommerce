@@ -17,7 +17,16 @@ if ( empty( $product ) || ! $product->is_visible() ) {
     
     <div class="relative aspect-[3/4] overflow-hidden bg-munar-sand">
         <a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="block w-full h-full">
-            <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105' ) ); ?>
+            <?php 
+            $hero_img = get_post_meta( $product->get_id(), '_munar_hero_image_url', true );
+            if ( has_post_thumbnail( $product->get_id() ) ) {
+                echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105' ) );
+            } elseif ( ! empty( $hero_img ) ) {
+                echo '<img src="' . esc_url( $hero_img ) . '" alt="' . esc_attr( $product->get_name() ) . '" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />';
+            } else {
+                echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105' ) );
+            }
+            ?>
         </a>
 
         <?php if ( $product->is_on_sale() ) : ?>

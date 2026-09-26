@@ -25,10 +25,10 @@
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.25em] text-munar-gold font-semibold">Collections</h4>
                     <ul class="space-y-2.5 text-xs text-munar-sand/80 font-light tracking-wide">
-                        <li><a href="<?php echo esc_url( home_url('/?category=women') ); ?>" class="hover:text-white transition-colors">Women's Haute Couture</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/?category=men') ); ?>" class="hover:text-white transition-colors">Men's Sartorial Line</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/?category=leather-bags') ); ?>" class="hover:text-white transition-colors">Handcrafted Leather Bags</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/?category=accessories') ); ?>" class="hover:text-white transition-colors">Silk Scarves & Accents</a></li>
+                        <li><a href="<?php echo esc_url( munar_get_cat_url('womens-atelier') ); ?>" class="hover:text-white transition-colors">Women's Haute Couture</a></li>
+                        <li><a href="<?php echo esc_url( munar_get_cat_url('mens-sartorial') ); ?>" class="hover:text-white transition-colors">Men's Sartorial Line</a></li>
+                        <li><a href="<?php echo esc_url( munar_get_cat_url('leather-goods') ); ?>" class="hover:text-white transition-colors">Handcrafted Leather Bags</a></li>
+                        <li><a href="<?php echo esc_url( munar_get_cat_url('fine-jewelry') ); ?>" class="hover:text-white transition-colors">Fine Jewelry & Timepieces</a></li>
                         <li><a href="<?php echo esc_url( home_url('/#lookbook') ); ?>" class="hover:text-white transition-colors">Runway Lookbook 2026</a></li>
                     </ul>
                 </div>
@@ -37,11 +37,11 @@
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.25em] text-munar-gold font-semibold">Client Care</h4>
                     <ul class="space-y-2.5 text-xs text-munar-sand/80 font-light tracking-wide">
-                        <li><a href="<?php echo esc_url( home_url('/bespoke-appointments') ); ?>" class="hover:text-white transition-colors">Bespoke Fitting Booking</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/delivery-shipping') ); ?>" class="hover:text-white transition-colors">Shipping & Concierge Courier</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/payment-mpesa') ); ?>" class="hover:text-white transition-colors">Lipa na M-Pesa & Security</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/garment-care') ); ?>" class="hover:text-white transition-colors">Haute Garment Care Guide</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/track-order') ); ?>" class="hover:text-white transition-colors">Track Order (#MNR-...)</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="hover:text-white transition-colors">Bespoke Fitting Booking</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="hover:text-white transition-colors">Shipping & Concierge Courier</a></li>
+                        <li><a href="<?php echo esc_url( function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : home_url('/checkout/') ); ?>" class="hover:text-white transition-colors">Lipa na M-Pesa & Security</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/about/') ); ?>" class="hover:text-white transition-colors">Atelier Heritage & Care</a></li>
+                        <li><button type="button" id="track-order-footer-btn" class="hover:text-white transition-colors text-left">Track Order (#MNR-...)</button></li>
                     </ul>
                 </div>
 

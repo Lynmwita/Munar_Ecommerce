@@ -141,3 +141,157 @@ h1, h2, h3, h4, .font-serif, .editorial-heading {
 ::-webkit-scrollbar-thumb {
   background: var(--munar-gold);
 }
+
+/* ==========================================================================
+   WooCommerce Luxury Atelier Enhancements
+   ========================================================================== */
+
+.woocommerce .button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit {
+  background-color: var(--munar-black) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--munar-black) !important;
+  padding: 0.875rem 1.75rem !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+  border-radius: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+.woocommerce .button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #respond input#submit:hover {
+  background-color: var(--munar-gold) !important;
+  border-color: var(--munar-gold) !important;
+  color: #ffffff !important;
+}
+
+.woocommerce .button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt {
+  background-color: var(--munar-gold) !important;
+  border-color: var(--munar-gold) !important;
+}
+
+.woocommerce .button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce input.button.alt:hover {
+  background-color: var(--munar-gold-dark) !important;
+  border-color: var(--munar-gold-dark) !important;
+}
+
+/* Single Product Details */
+.woocommerce div.product {
+  background: transparent;
+}
+
+.woocommerce div.product .product_title {
+  font-family: var(--font-editorial);
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--munar-black);
+  margin-bottom: 0.75rem;
+}
+
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--munar-black);
+}
+
+.woocommerce div.product .woocommerce-product-details__short-description {
+  color: var(--munar-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  margin: 1.5rem 0;
+}
+
+/* Product Tabs */
+.woocommerce div.product .woocommerce-tabs ul.tabs {
+  border-bottom: 1px solid var(--munar-border);
+  padding-left: 0;
+  margin-bottom: 2rem;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li {
+  background: transparent !important;
+  border: none !important;
+  margin: 0 1.5rem 0 0 !important;
+  padding: 0 0 0.75rem 0 !important;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li a {
+  font-family: var(--font-sans) !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+  font-weight: 600 !important;
+  color: var(--munar-text-muted) !important;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+  border-bottom: 2px solid var(--munar-gold) !important;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
+  color: var(--munar-black) !important;
+}
+
+.woocommerce div.product .woocommerce-tabs .panel {
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--munar-text-muted);
+}
+
+/* Form Fields & Inputs */
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce .quantity input.qty {
+  background-color: #ffffff;
+  border: 1px solid var(--munar-border);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0;
+  color: var(--munar-black);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row textarea:focus,
+.woocommerce .quantity input.qty:focus {
+  border-color: var(--munar-gold);
+}
+
+/* Notices & Alerts */
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+  border-radius: 0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.8125rem !important;
+  border-top-width: 2px !important;
+}
+
+.woocommerce-message {
+  border-top-color: var(--munar-gold) !important;
+  background-color: var(--munar-sand) !important;
+  color: var(--munar-black) !important;
+}
+
+.woocommerce-info {
+  border-top-color: var(--munar-black) !important;
+  background-color: var(--munar-sand) !important;
+}
+

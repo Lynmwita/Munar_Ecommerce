@@ -234,3 +234,30 @@ function munar_custom_currency_symbol( $currency_symbol, $currency ) {
     }
     return $currency_symbol;
 }
+
+/**
+ * Include AI Stylist Concierge Engine
+ */
+require_once MUNAR_THEME_DIR . '/inc/ai-concierge.php';
+
+/**
+ * Helper to retrieve WooCommerce category archive permalinks safely
+ */
+function munar_get_cat_url( $slug ) {
+    $term = get_term_by( 'slug', $slug, 'product_cat' );
+    if ( $term && ! is_wp_error( $term ) ) {
+        $link = get_term_link( $term );
+        if ( ! is_wp_error( $link ) ) {
+            return $link;
+        }
+    }
+    $term_by_name = get_term_by( 'name', $slug, 'product_cat' );
+    if ( $term_by_name && ! is_wp_error( $term_by_name ) ) {
+        $link = get_term_link( $term_by_name );
+        if ( ! is_wp_error( $link ) ) {
+            return $link;
+        }
+    }
+    return function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+}
+
