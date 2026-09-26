@@ -32,35 +32,41 @@ Tags: e-commerce, luxury, fashion, editorial, woocommerce, m-pesa, responsive-la
 
 /* Munar Signature Brand Lockup (MUNAR + bottom-right QUIET, LUXE) */
 .munar-brand-lockup {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-decoration: none;
-  line-height: 1;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  width: fit-content !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+  position: relative;
 }
 
 .munar-brand-lockup .brand-title {
-  font-family: var(--font-editorial);
-  font-size: 2.25rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  line-height: 0.9;
+  display: block !important;
+  font-family: var(--font-editorial) !important;
+  font-size: 2.25rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  line-height: 0.95 !important;
   color: var(--munar-mocha);
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 
 .munar-brand-lockup .brand-tagline {
-  font-family: var(--font-sans);
-  font-size: 0.525rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  display: block !important;
+  width: 100% !important;
+  text-align: right !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.55rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
   color: var(--munar-mocha);
   opacity: 0.85;
-  align-self: flex-end;
-  margin-top: 0.3rem;
-  margin-right: 0.15rem;
+  margin-top: 4px !important;
+  padding-right: 2px !important;
   transition: color 0.3s ease, opacity 0.3s ease;
+  white-space: nowrap;
 }
 
 .munar-brand-lockup:hover .brand-title {
