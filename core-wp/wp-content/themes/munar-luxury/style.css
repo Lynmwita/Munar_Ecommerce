@@ -295,3 +295,319 @@ h1, h2, h3, h4, .font-serif, .editorial-heading {
   background-color: var(--munar-sand) !important;
 }
 
+/* ==========================================================================
+   Munar Haute Couture Checkout & Cart Experience
+   ========================================================================== */
+
+/* Checkout Page Layout & Typography */
+.woocommerce-checkout .woocommerce-NoticeGroup,
+.woocommerce-checkout .woocommerce-form-coupon-toggle {
+  margin-bottom: 2rem;
+}
+
+.woocommerce-checkout .woocommerce-form-coupon {
+  background-color: #ffffff;
+  border: 1px solid var(--munar-border);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Form Row Grid & Inputs */
+.woocommerce form .form-row {
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+.woocommerce form .form-row label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--munar-black);
+  margin-bottom: 0.5rem;
+}
+
+.woocommerce form .form-row label .required {
+  color: var(--munar-gold);
+  text-decoration: none;
+}
+
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row select,
+.woocommerce form .form-row textarea {
+  width: 100%;
+  height: 48px;
+  background-color: #ffffff;
+  border: 1px solid var(--munar-border);
+  border-radius: 0;
+  padding: 0 1.25rem;
+  font-size: 0.875rem;
+  color: var(--munar-black);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.woocommerce form .form-row textarea {
+  height: auto;
+  min-height: 110px;
+  padding: 1rem 1.25rem;
+}
+
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row select:focus,
+.woocommerce form .form-row textarea:focus {
+  border-color: var(--munar-gold);
+  box-shadow: 0 0 0 1px var(--munar-gold);
+}
+
+.woocommerce form .form-row .select2-container--default .select2-selection--single {
+  height: 48px;
+  border: 1px solid var(--munar-border);
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+}
+
+/* Order Review Container (Right Sticky Panel) */
+.woocommerce-checkout #order_review_heading {
+  display: none; /* Managed cleanly inside our custom template */
+}
+
+.woocommerce-checkout #order_review {
+  background-color: #faf7f2;
+  border: 1px solid #ebe4d8;
+  padding: 2rem;
+  margin-top: 0;
+}
+
+/* Order Review Table */
+.woocommerce-checkout table.shop_table {
+  border: none;
+  background: transparent;
+  margin: 0 0 1.5rem 0;
+}
+
+.woocommerce-checkout table.shop_table th,
+.woocommerce-checkout table.shop_table td {
+  border: none;
+  border-bottom: 1px solid #e8e1d5;
+  padding: 1rem 0;
+  font-size: 0.875rem;
+  color: var(--munar-dark);
+}
+
+.woocommerce-checkout table.shop_table th {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  color: var(--munar-text-muted);
+  border-bottom: 2px solid var(--munar-black);
+}
+
+.woocommerce-checkout table.shop_table .product-name {
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.woocommerce-checkout table.shop_table .product-name .product-quantity {
+  font-weight: 400;
+  color: var(--munar-text-muted);
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+}
+
+.woocommerce-checkout table.shop_table .product-total,
+.woocommerce-checkout table.shop_table tr.order-total td {
+  text-align: right;
+  font-weight: 600;
+}
+
+.woocommerce-checkout table.shop_table tr.cart-subtotal th,
+.woocommerce-checkout table.shop_table tr.cart-subtotal td,
+.woocommerce-checkout table.shop_table tr.shipping th,
+.woocommerce-checkout table.shop_table tr.shipping td {
+  font-size: 0.8125rem;
+}
+
+.woocommerce-checkout table.shop_table tr.order-total th,
+.woocommerce-checkout table.shop_table tr.order-total td {
+  border-top: 2px solid var(--munar-black);
+  border-bottom: 2px solid var(--munar-black);
+  padding: 1.25rem 0;
+}
+
+.woocommerce-checkout table.shop_table tr.order-total .woocommerce-Price-amount {
+  font-size: 1.25rem;
+  color: var(--munar-black);
+  font-weight: 700;
+}
+
+/* Shipping Method Selection in Order Review */
+.woocommerce-checkout #shipping_method {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.woocommerce-checkout #shipping_method li {
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+}
+
+.woocommerce-checkout #shipping_method li input[type="radio"] {
+  accent-color: var(--munar-gold);
+  margin-right: 0.5rem;
+}
+
+/* Payment Methods (Luxury Interactive Cards) */
+.woocommerce-checkout #payment {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.woocommerce-checkout #payment ul.payment_methods {
+  border: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li {
+  background-color: #ffffff;
+  border: 1px solid var(--munar-border);
+  padding: 1.25rem;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li:hover {
+  border-color: var(--munar-gold);
+}
+
+.woocommerce-checkout #payment ul.payment_methods li input[type="radio"] {
+  accent-color: var(--munar-gold);
+  margin-right: 0.75rem;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  color: var(--munar-black);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.woocommerce-checkout #payment div.payment_box {
+  background: #fbf9f5;
+  border: 1px dashed var(--munar-border);
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  color: var(--munar-text-muted);
+  line-height: 1.6;
+}
+
+.woocommerce-checkout #payment div.payment_box::before {
+  display: none;
+}
+
+/* Place Order CTA Button */
+.woocommerce-checkout #place_order {
+  width: 100%;
+  height: 54px;
+  background-color: var(--munar-black);
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid var(--munar-black);
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.woocommerce-checkout #place_order:hover {
+  background-color: var(--munar-gold);
+  border-color: var(--munar-gold);
+  color: #ffffff;
+}
+
+/* Terms and Conditions Checkbox */
+.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper {
+  margin-bottom: 1.5rem;
+  font-size: 0.8125rem;
+  color: var(--munar-text-muted);
+}
+
+.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper a {
+  color: var(--munar-black);
+  text-decoration: underline;
+}
+
+/* Cart Page Styles */
+.woocommerce-cart table.cart {
+  border: 1px solid var(--munar-border);
+  background: #ffffff;
+}
+
+.woocommerce-cart table.cart th {
+  background: #faf7f2;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--munar-text-muted);
+  padding: 1rem;
+}
+
+.woocommerce-cart table.cart td {
+  padding: 1.25rem 1rem;
+  border-color: var(--munar-border);
+}
+
+.woocommerce-cart .cart-collaterals .cart_totals {
+  background: #faf7f2;
+  border: 1px solid #ebe4d8;
+  padding: 2rem;
+}
+
+.woocommerce-cart .cart-collaterals .cart_totals h2 {
+  font-family: var(--font-editorial);
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.woocommerce-cart .checkout-button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: var(--munar-black);
+  color: #ffffff;
+  padding: 1rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.woocommerce-cart .checkout-button:hover {
+  background-color: var(--munar-gold);
+  color: #ffffff;
+}
+
