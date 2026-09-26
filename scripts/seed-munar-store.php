@@ -258,6 +258,81 @@ $products = array(
             'Ring Size' => array('US 6', 'US 7', 'US 8', 'US 9', 'US 10'),
         ),
     ),
+    array(
+        'name'        => 'The Savannah Sculptural Midi Dress',
+        'slug'        => 'savannah-sculptural-midi-dress',
+        'cat'         => 'womens-atelier',
+        'price'       => 36000,
+        'regular'     => 36000,
+        'sku'         => 'MNR-W-009',
+        'short_desc'  => 'Pleated ivory raw silk midi dress with sculptural draped neckline and asymmetric hemline.',
+        'desc'        => 'A study in organic Kenyan architectural movement. Cut from natural unbleached raw silk and finished with hand-pleated sculptural folds that cinch gracefully at the waist.',
+        'featured'    => 'yes',
+        'image_url'   => 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=1200&q=80',
+        'gallery'     => array(
+            'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80',
+        ),
+        'attributes'  => array(
+            'Size'  => array('XS', 'S', 'M', 'L'),
+            'Color' => array('Ivory Raw Silk', 'Sunlit Ochre'),
+        ),
+    ),
+    array(
+        'name'        => 'Obsidian Sartorial Wool Trousers',
+        'slug'        => 'obsidian-sartorial-wool-trousers',
+        'cat'         => 'mens-sartorial',
+        'price'       => 26000,
+        'regular'     => 26000,
+        'sku'         => 'MNR-M-010',
+        'short_desc'  => 'High-waisted double-pleated dress trousers in Italian virgin wool with side adjusters.',
+        'desc'        => 'Engineered with classic sartorial side tabs and a clean tapered break. Woven from breathable tropical-weight virgin wool for all-day equatorial refinement.',
+        'featured'    => 'no',
+        'image_url'   => 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=80',
+        'gallery'     => array(
+            'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80',
+        ),
+        'attributes'  => array(
+            'Waist Size' => array('30', '32', '34', '36', '38'),
+            'Color'      => array('Obsidian Black', 'Charcoal Slate'),
+        ),
+    ),
+    array(
+        'name'        => 'Nomad Cast Brass & Saddle Crossbody',
+        'slug'        => 'nomad-cast-brass-saddle-crossbody',
+        'cat'         => 'leather-goods',
+        'price'       => 45000,
+        'regular'     => 49000,
+        'sku'         => 'MNR-L-011',
+        'short_desc'  => 'Compact saddle bag in vegetable-tanned leather with custom hand-cast recycled Kenyan brass buckle.',
+        'desc'        => 'Combining artisanal saddlery techniques with bespoke hardware cast by master metalsmiths in Nairobi. Features adjustable shoulder strap and dual card slots inside.',
+        'featured'    => 'yes',
+        'image_url'   => 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=1200&q=80',
+        'gallery'     => array(
+            'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1200&q=80',
+        ),
+        'attributes'  => array(
+            'Color' => array('Desert Saddle', 'Obsidian Black'),
+        ),
+    ),
+    array(
+        'name'        => 'Equatorial Chronometer Timepiece',
+        'slug'        => 'equatorial-chronometer-timepiece',
+        'cat'         => 'fine-jewelry',
+        'price'       => 88000,
+        'regular'     => 88000,
+        'sku'         => 'MNR-J-012',
+        'short_desc'  => 'Automatic chronometer with brushed 18K gold casing, sapphire crystal face, and bespoke leather band.',
+        'desc'        => 'A masterpiece of precision horology. Featuring an ultra-precise automatic mechanical movement with 42-hour power reserve, anti-reflective sapphire glass, and 50m water resistance.',
+        'featured'    => 'yes',
+        'image_url'   => 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=1200&q=80',
+        'gallery'     => array(
+            'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80',
+        ),
+        'attributes'  => array(
+            'Case Diameter' => array('39mm', '41mm'),
+            'Strap Color'   => array('Espresso Alligator Print', 'Onyx Black'),
+        ),
+    ),
 );
 
 // 6. Insert or Update Products
