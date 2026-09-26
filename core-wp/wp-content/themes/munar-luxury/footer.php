@@ -5,10 +5,15 @@
                 
                 <!-- Col 1 & 2: Brand Heritage & Newsletter -->
                 <div class="lg:col-span-2 space-y-6">
-                    <div class="space-y-2">
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="munar-brand-lockup brand-light group inline-block" aria-label="Munar - Quiet Luxe">
-                            <span class="brand-title font-editorial text-3xl sm:text-4xl tracking-[0.16em] text-munar-linen group-hover:text-munar-gold transition-colors">MUNAR</span>
-                            <span class="brand-tagline text-[8.5px] uppercase tracking-[0.22em] font-bold text-munar-linen/80 group-hover:text-munar-gold self-end block text-right pr-0.5 transition-colors">QUIET, LUXE</span>
+                    <div class="space-y-3">
+                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center space-x-3.5 group inline-flex" aria-label="Munar - Quiet Luxe">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/munar-logo-circle-transparent.png' ); ?>" 
+                                 alt="Munar - Quiet Luxe" 
+                                 class="h-14 w-14 object-contain rounded-full border border-white/10 shadow-md" />
+                            <div class="flex flex-col items-start leading-none">
+                                <span class="font-editorial text-3xl sm:text-4xl tracking-[0.14em] text-munar-linen group-hover:text-munar-gold transition-colors">MUNAR</span>
+                                <span class="text-[8.5px] uppercase tracking-[0.24em] font-bold text-munar-linen/80 group-hover:text-munar-gold self-end mt-1 pr-0.5 transition-colors">QUIET, LUXE</span>
+                            </div>
                         </a>
                         <p class="text-xs uppercase tracking-[0.25em] text-munar-gold font-medium pt-1">Modern African Luxury Atelier</p>
                     </div>
@@ -175,8 +180,10 @@
 <div id="ai-concierge-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
     <div class="bg-munar-cream max-w-lg w-full rounded-sm border border-munar-border shadow-2xl overflow-hidden flex flex-col h-[520px]">
         <div class="bg-munar-black p-4 text-white flex items-center justify-between border-b border-white/10">
-            <div class="flex items-center space-x-2.5">
-                <i data-lucide="sparkles" class="w-5 h-5 text-munar-gold"></i>
+            <div class="flex items-center space-x-3">
+                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/munar-logo-circle-transparent.png' ); ?>" 
+                     alt="Munar" 
+                     class="h-9 w-9 object-contain rounded-full border border-munar-gold/30 shadow-xs" />
                 <div>
                     <h4 class="font-editorial text-xl font-light">Munar AI Shopping Concierge</h4>
                     <p class="text-[10px] uppercase tracking-widest text-munar-gold">Styling &bull; Stock &bull; Order Tracking</p>

@@ -30,13 +30,18 @@
 
                 <!-- Left: Brand Logo Lockup -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="munar-brand-lockup group" aria-label="Munar - Quiet Luxe">
-                        <span class="brand-title font-editorial text-3xl sm:text-4xl font-light tracking-[0.16em] text-munar-mocha group-hover:text-munar-gold transition-colors duration-300">
-                            MUNAR
-                        </span>
-                        <span class="brand-tagline text-[8px] sm:text-[9px] uppercase tracking-[0.22em] font-bold text-munar-mocha/85 group-hover:text-munar-gold group-hover:opacity-100 self-end -mt-0.5 pr-0.5 transition-all duration-300">
-                            QUIET, LUXE
-                        </span>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center space-x-3 group" aria-label="Munar - Quiet Luxe">
+                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/munar-logo-circle-transparent.png' ); ?>" 
+                             alt="Munar - Quiet Luxe" 
+                             class="h-11 w-11 sm:h-13 sm:w-13 object-contain rounded-full transition-transform duration-300 group-hover:scale-105 shadow-sm" />
+                        <div class="flex flex-col items-start leading-none">
+                            <span class="font-editorial text-2xl sm:text-3xl font-semibold tracking-[0.14em] text-munar-mocha group-hover:text-munar-gold transition-colors duration-300">
+                                MUNAR
+                            </span>
+                            <span class="text-[7.5px] sm:text-[8.5px] uppercase tracking-[0.24em] font-bold text-munar-mocha/80 group-hover:text-munar-gold transition-colors self-end mt-0.5 pr-0.5">
+                                QUIET, LUXE
+                            </span>
+                        </div>
                     </a>
                 </div>
 
@@ -136,9 +141,14 @@
         <div class="absolute inset-y-0 left-0 max-w-xs w-full bg-munar-cream shadow-2xl p-6 flex flex-col justify-between transform -translate-x-full transition-transform duration-300" id="mobile-nav-content">
             <div>
                 <div class="flex items-center justify-between pb-6 border-b border-munar-border">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="munar-brand-lockup">
-                        <span class="brand-title font-editorial text-2xl tracking-[0.16em] text-munar-mocha">MUNAR</span>
-                        <span class="brand-tagline text-[8px] uppercase tracking-[0.22em] font-bold text-munar-mocha/80 self-end -mt-0.5 pr-0.5">QUIET, LUXE</span>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center space-x-2.5">
+                        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/munar-logo-circle-transparent.png' ); ?>" 
+                             alt="Munar - Quiet Luxe" 
+                             class="h-10 w-10 object-contain rounded-full shadow-xs" />
+                        <div class="flex flex-col items-start leading-none">
+                            <span class="font-editorial text-xl font-semibold tracking-[0.14em] text-munar-mocha">MUNAR</span>
+                            <span class="text-[7px] uppercase tracking-[0.22em] font-bold text-munar-mocha/80 self-end mt-0.5">QUIET, LUXE</span>
+                        </div>
                     </a>
                     <button id="mobile-nav-close" class="p-1 hover:text-munar-gold">
                         <i data-lucide="x" class="w-6 h-6"></i>
