@@ -213,46 +213,150 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getClientGuardrailFallback(query) {
-        const lower = query.toLowerCase();
+        let text = query.toLowerCase().trim();
+        text = text.replace(/\b(finf|fnd)\b/g, 'find');
+        text = text.replace(/\b(thabk|thx|thanx|tnx)\b/g, 'thank');
 
-        // 1. Out-of-Domain Guardrail (Food/Dinner, Weather, Tech, Politics, etc.)
-        if (/\b(dinner|lunch|breakfast|food|eat|restaurant|cook|recipe|weather|rain|code|python|football)\b/i.test(lower)) {
-            return "While I would love to assist, as the Munar Atelier Concierge my expertise is exclusively dedicated to luxury fashion, bespoke tailoring, and our curated collections. May I guide you through our latest runway evening gowns, leather goods, or private fittings in Nairobi?";
+        // 1. Gratitude, Thanks & Polite Sign-offs
+        if (/\b(thank|thanks|appreciate|grateful|asante|merci)\b/i.test(text) ||
+            /^(no\s*thank|no\s*thanks|good\s*thank|all\s*good|that\s*is\s*all|bye|goodbye)[\s!.]*$/i.test(text)) {
+            return "You are most welcome! It is our absolute pleasure at Munar Atelier. If you need any further styling advice or wish to schedule a private fitting in Westlands, we are always at your service.";
         }
 
-        // 2. Greetings
-        if (/^(hi|hello|hey|greetings|good\s*(morning|afternoon|evening)|habari|jambo)[\s!.]*$/i.test(lower)) {
-            return "Good day. Welcome to Munar Luxury Atelier. I am your personal couture stylist. How may I assist your wardrobe today? You may ask about look pairings, bespoke fitting appointments in Westlands, sizing guidance, or our handcrafted leather collections.";
+        // 2. Affirmations & Acknowledgments
+        if (/^(ok|okay|alright|sure|sounds\s*good|cool|perfect|noted|understood|sawa)[\s!.]*$/i.test(text)) {
+            return "Splendid! Let me know if you would like to explore our Women's Atelier, Men's Sartorial pieces, Haute Leather Goods, or book a private fitting.";
         }
 
-        // 3. Sizing & Fitting
-        if (/\b(size|sizing|fit|fitting|measure|tailor|bespoke|appointment)\b/i.test(lower)) {
-            return "Our garments follow tailored UK/EU sizing. For bespoke atelier measurements, we offer complimentary tailored adjustments and private fittings at our Westlands studio in Nairobi.";
+        // 3. True Out-of-Domain Guardrails (Does NOT block dinner, evening, gala, party)
+        if (/\b(how\s*to\s*cook|recipe|bake\s*cake|pizza|burger|fast\s*food|weather\s*forecast|rain\s*today|python|javascript|php\s*code|software\s*bug|football\s*score|premier\s*league|election|parliament|president|calculate|solve\s*equation)\b/i.test(text)) {
+            return "While I would love to chat about that, as your Munar Atelier Stylist my focus is strictly dedicated to luxury fashion, bespoke tailoring, and our curated Nairobi collections. May I guide you through our runway evening gowns, sartorial blazers, or handcrafted leather goods?";
         }
 
-        // 4. Payment / M-Pesa
-        if (/\b(mpesa|m-pesa|payment|pay|checkout|daraja|stk)\b/i.test(lower)) {
-            return "We accept instant Safaricom Lipa na M-Pesa STK Push payments at checkout. Once you enter your phone number, a secure PIN prompt will automatically appear on your phone.";
+        // 4. Greetings
+        if (/^(hi|hello|hey|greetings|good\s*(morning|afternoon|evening)|salut|habari|jambo|sup)[\s!.]*$/i.test(text)) {
+            return "Good day. Welcome to Munar Luxury Atelier Nairobi. I am your personal couture stylist. How may I elevate your wardrobe today? You can ask me to view Men's or Women's collections, request dinner & gala outfit pairings, inquire about leather bags, or book a bespoke fitting.";
         }
 
-        // 5. Order Tracking
-        if (/\b(track|order|delivery|courier|dispatch|mnr-)\b/i.test(lower)) {
-            return "Munar orders within Nairobi enjoy complimentary same-day or next-day White-Glove courier delivery (free above KSh 15,000). Please share your Order Reference or reach our concierge directly on WhatsApp for real-time dispatch status.";
+        // 5. Picture / Photo / Visual Showcase Requests
+        if (/\b(picture|pictures|photo|photos|image|images|show\s*me|see|look\s*like|send\s*me)\b/i.test(text) && !/\b(track|order|delivery)\b/i.test(text)) {
+            return "Here is a curated glimpse of our signature runway pieces currently available in the atelier:<br>" +
+                `<div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">The Sovereign Silk Evening Gown</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 42,500</p>
+                        <a href="/wordpress/product/sovereign-silk-evening-gown/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">Milano Double-Breasted Wool Blazer</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 38,500</p>
+                        <a href="/wordpress/product/milano-double-breasted-wool-blazer/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <p class='mt-2 text-xs'>You can click any piece to view full sizing details, or explore our <a href='/wordpress/shop/' class='text-munar-gold underline font-medium'>Full Collections Catalog</a>.</p>`;
         }
 
-        // 6. Leather Bags
-        if (/\b(bag|bags|tote|leather|calfskin|duffle)\b/i.test(lower)) {
-            return "Our leather collection is handcrafted by master artisans from full-grain Tuscan calfskin with brushed gold hardware. Explore the <b>L'Atelier Calfskin Monogram Tote</b> and <b>Vanguard Leather Travel Duffle</b> in our shop.";
+        // 6. Men's Wear & Sartorial
+        if (/\b(men|mens|men\'s|gentleman|gentlemen|sartorial|blazer|turtleneck|suit|suits|trousers)\b/i.test(text)) {
+            return "Here are our signature Men's Sartorial pieces tailored for modern distinction:<br>" +
+                `<div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">Milano Double-Breasted Wool Blazer</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 38,500</p>
+                        <a href="/wordpress/product/milano-double-breasted-wool-blazer/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">Grand Sartorial Cashmere Turtleneck</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 22,500</p>
+                        <a href="/wordpress/product/grand-sartorial-cashmere-turtleneck/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <p class='mt-2 text-xs'>Explore the full <a href='/wordpress/product-category/mens-sartorial/' class='text-munar-gold underline font-medium'>Men's Sartorial Collection</a> or book a private fitting in Westlands.</p>`;
         }
 
-        // 7. Styling Advice
-        if (/\b(style|styling|pair|pairing|wear|gala|evening|wedding|suit|blazer|gown)\b/i.test(lower)) {
-            return "For gala and evening occasions, our stylists recommend pairing <b>The Sovereign Silk Evening Gown</b> with our <b>Aura 18K Brushed Gold Cuff</b>. For gentlemen, the <b>Milano Double-Breasted Wool Blazer</b> delivers an impeccable sartorial silhouette.";
+        // 7. Women's Wear & Haute Couture
+        if (/\b(women|womens|women\'s|lady|ladies|gown|gowns|dress|dresses|skirt|couture|trench)\b/i.test(text)) {
+            return "Here are our highlighted Women's Atelier runway creations:<br>" +
+                `<div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">The Sovereign Silk Evening Gown</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 42,500</p>
+                        <a href="/wordpress/product/sovereign-silk-evening-gown/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">Cashmere Belted Trench Coat</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 54,000</p>
+                        <a href="/wordpress/product/cashmere-belted-trench-coat/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <p class='mt-2 text-xs'>Explore the full <a href='/wordpress/product-category/womens-atelier/' class='text-munar-gold underline font-medium'>Women's Atelier Collection</a>.</p>`;
         }
 
-        // Default Elegant Prompt
-        return "As your Munar Atelier Stylist, I can curate your look for any occasion, guide you through our Ready-To-Wear collections, assist with M-Pesa checkout, or arrange a private fitting at our Westlands studio. What piece or occasion can I assist you with today?";
+        // 8. Occasions: Dinner, Gala, Evening, Wedding, Cocktail
+        if (/\b(dinner|gala|evening|wedding|cocktail|date\s*night|party|event|black\s*tie|soiree|reception)\b/i.test(text)) {
+            return "For an exquisite dinner or evening affair, our stylists recommend these standout ensembles:<br>" +
+                `<div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">The Sovereign Silk Evening Gown</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 42,500</p>
+                        <a href="/wordpress/product/sovereign-silk-evening-gown/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <div class="my-2 p-2 bg-white/90 rounded border border-munar-border/80 flex items-center space-x-3 shadow-xs">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80" class="w-12 h-14 object-cover rounded-sm flex-shrink-0" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[11px] font-semibold text-munar-black truncate">Milano Double-Breasted Wool Blazer</p>
+                        <p class="text-[10px] text-munar-gold font-bold mt-0.5">KSh 38,500</p>
+                        <a href="/wordpress/product/milano-double-breasted-wool-blazer/" class="text-[10px] text-munar-dark font-medium underline hover:text-munar-gold transition-colors inline-block mt-0.5">View Piece &rarr;</a>
+                    </div>
+                </div>
+                <p class='mt-2 text-xs'>Pair with the <a href='/wordpress/product/aura-18k-brushed-gold-cuff/' class='text-munar-gold underline font-medium'>Aura 18K Gold Cuff</a> for effortless evening distinction.</p>`;
+        }
+
+        // 9. Sizing & Fitting
+        if (/\b(size|sizing|fit|fitting|measure|tailor|bespoke|appointment|westlands|visit)\b/i.test(text)) {
+            return "Our garments follow precision UK/EU sizing (XS to XL, and 38R–44R for sartorial tailoring). We offer complimentary private fitting sessions and bespoke adjustments at our Westlands Atelier. You can <a href='/wordpress/contact/' class='text-munar-gold underline font-medium'>Book an Atelier Appointment</a> or message us on WhatsApp.";
+        }
+
+        // 10. Payment / M-Pesa
+        if (/\b(mpesa|m-pesa|payment|pay|checkout|daraja|stk|card|visa|mastercard)\b/i.test(text)) {
+            return "We provide seamless, VIP-encrypted checkout via <b>Safaricom Lipa na M-Pesa STK Push</b>. Once you enter your phone number, a secure PIN prompt will automatically appear on your mobile device.";
+        }
+
+        // 11. Order Tracking & Delivery
+        if (/\b(track|order|delivery|courier|dispatch|mnr-)\b/i.test(text)) {
+            return "We offer complimentary <b>White-Glove VIP Courier delivery</b> across Kenya on orders over KSh 15,000 (same-day in Nairobi). Please share your 6-digit Order Reference (e.g. <b>#MNR-1042</b>) or reach our concierge directly on WhatsApp.";
+        }
+
+        // 12. Default Guidance
+        return "As your Munar Atelier Stylist, I am here to assist your wardrobe. Would you like me to show you:<br><br>• <a href='#' class='text-munar-gold underline font-medium concierge-quick-link' data-prompt='Show me mens wear'>Men's Sartorial Tailoring</a><br>• <a href='#' class='text-munar-gold underline font-medium concierge-quick-link' data-prompt='Show me womens wear'>Women's Haute Couture Gowns</a><br>• <a href='#' class='text-munar-gold underline font-medium concierge-quick-link' data-prompt='Show me leather bags'>Handcrafted Leather Bags</a><br>• <a href='#' class='text-munar-gold underline font-medium concierge-quick-link' data-prompt='Book private fitting'>Bespoke Fitting in Westlands</a>";
     }
+
+    // Handle Quick Links click inside chat
+    document.addEventListener('click', function (e) {
+        const quickLink = e.target.closest('.concierge-quick-link');
+        if (quickLink) {
+            e.preventDefault();
+            const prompt = quickLink.getAttribute('data-prompt');
+            if (prompt && aiInput) {
+                aiInput.value = prompt;
+                sendAiQuery();
+            }
+        }
+    });
 
     if (aiSend) aiSend.addEventListener('click', sendAiQuery);
     if (aiInput) {
