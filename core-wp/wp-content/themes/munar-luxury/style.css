@@ -745,3 +745,107 @@ h1, h2, h3, h4, .font-serif, .editorial-heading {
   background-color: var(--munar-gold);
 }
 
+/* ==========================================================================
+   My Account (Patron Portal & Dashboard) Styling
+   ========================================================================== */
+.woocommerce-account .woocommerce {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation {
+  float: left;
+  width: 260px;
+  background-color: #faf7f2;
+  border: 1px solid #ebe4d8;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li {
+  padding: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li a {
+  display: block;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--munar-dark);
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a,
+.woocommerce-account .woocommerce-MyAccount-navigation li a:hover {
+  background-color: #ffffff;
+  color: var(--munar-gold);
+  border-left-color: var(--munar-gold);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+  float: right;
+  width: calc(100% - 290px);
+  background-color: #ffffff;
+  border: 1px solid #ebe4d8;
+  padding: 2.5rem;
+}
+
+.woocommerce-account table.shop_table.my_account_orders {
+  width: 100%;
+  border: none;
+}
+
+.woocommerce-account table.shop_table.my_account_orders th {
+  background-color: #faf7f2;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem;
+}
+
+.woocommerce-account table.shop_table.my_account_orders td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #f0ebe1;
+  font-size: 0.875rem;
+}
+
+.woocommerce-account table.shop_table.my_account_orders .woocommerce-button {
+  background-color: var(--munar-black);
+  color: #ffffff;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.woocommerce-account table.shop_table.my_account_orders .woocommerce-button:hover {
+  background-color: var(--munar-gold);
+}
+
+.woocommerce-account form.login,
+.woocommerce-account form.register {
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: 1px solid #ebe4d8;
+  padding: 2.5rem;
+}
+
+@media (max-width: 850px) {
+  .woocommerce-account .woocommerce-MyAccount-navigation,
+  .woocommerce-account .woocommerce-MyAccount-content {
+    float: none;
+    width: 100%;
+  }
+}
+

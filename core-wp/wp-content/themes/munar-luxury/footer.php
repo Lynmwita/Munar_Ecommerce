@@ -45,10 +45,11 @@
                 <div class="space-y-4">
                     <h4 class="text-xs uppercase tracking-[0.25em] text-munar-gold font-semibold">Client Care</h4>
                     <ul class="space-y-2.5 text-xs text-munar-sand/80 font-light tracking-wide">
-                        <li><a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="hover:text-white transition-colors">Bespoke Fitting Booking</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="hover:text-white transition-colors">Shipping & Concierge Courier</a></li>
-                        <li><a href="<?php echo esc_url( function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : home_url('/checkout/') ); ?>" class="hover:text-white transition-colors">Lipa na M-Pesa & Security</a></li>
-                        <li><a href="<?php echo esc_url( home_url('/about/') ); ?>" class="hover:text-white transition-colors">Atelier Heritage & Care</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/faq/') ); ?>" class="hover:text-white transition-colors">FAQ & Sizing Concierge</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/shipping-delivery/') ); ?>" class="hover:text-white transition-colors">White-Glove Shipping & Delivery</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/refund-returns/') ); ?>" class="hover:text-white transition-colors">Returns & Complimentary Alterations</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="hover:text-white transition-colors">Bespoke Fitting Reservation</a></li>
+                        <li><a href="<?php echo esc_url( home_url('/about/') ); ?>" class="hover:text-white transition-colors">Atelier Heritage & Sustainability</a></li>
                         <li><button type="button" id="track-order-footer-btn" class="hover:text-white transition-colors text-left">Track Order (#MNR-...)</button></li>
                     </ul>
                 </div>
@@ -72,9 +73,18 @@
 
             <!-- Footer Bottom Bar -->
             <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-munar-sand/50 gap-4">
-                <p>&copy; <?php echo esc_html( date('Y') ); ?> MUNAR Luxury Atelier. All rights reserved. Registered in Kenya.</p>
+                <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+                    <p>&copy; <?php echo esc_html( date('Y') ); ?> MUNAR Luxury Atelier. All rights reserved.</p>
+                    <div class="flex items-center space-x-3 text-[11px] text-munar-sand/40">
+                        <a href="<?php echo esc_url( home_url('/privacy-policy/') ); ?>" class="hover:text-munar-sand transition-colors">Privacy Policy</a>
+                        <span>&bull;</span>
+                        <a href="<?php echo esc_url( home_url('/refund-returns/') ); ?>" class="hover:text-munar-sand transition-colors">Returns Terms</a>
+                        <span>&bull;</span>
+                        <a href="<?php echo esc_url( home_url('/shipping-delivery/') ); ?>" class="hover:text-munar-sand transition-colors">Delivery Terms</a>
+                    </div>
+                </div>
                 <div class="flex items-center space-x-6">
-                    <span class="text-[11px] uppercase tracking-wider text-munar-sand/40">Secure Payments via:</span>
+                    <span class="text-[11px] uppercase tracking-wider text-munar-sand/40">Secure Payments:</span>
                     <span class="font-bold text-emerald-400 tracking-wider">LIPA NA M-PESA</span>
                     <span>&bull;</span>
                     <span class="font-semibold text-white">VISA</span>
