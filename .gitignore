@@ -4,3 +4,7 @@
 *.log
 .DS_Store
 Thumbs.db
+
+# Exclude third-party core plugin vendor code
+core-wp/wp-content/plugins/woocommerce/
+
