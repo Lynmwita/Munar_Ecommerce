@@ -712,7 +712,7 @@ class Munar_Admin_Portal {
                         </table>
                     <?php else : ?>
                         <div class="munar-empty-state">
-                            <span class="dashicons dashicons-yes-alt" style="font-size:32px; color:#047857; margin-bottom:8px;"></span>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; display:inline-block;"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
                             <p>No orders require immediate attention. All current orders are processed or completed.</p>
                         </div>
                     <?php endif; ?>
@@ -756,7 +756,7 @@ class Munar_Admin_Portal {
                         </div>
                     <?php else : ?>
                         <div class="munar-empty-state">
-                            <span class="dashicons dashicons-shield-alt" style="font-size:32px; color:#047857; margin-bottom:8px;"></span>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; display:inline-block;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                             <p>Inventory is Healthy! No items are currently at or below the 2-unit threshold.</p>
                         </div>
                     <?php endif; ?>
@@ -854,7 +854,7 @@ class Munar_Admin_Portal {
                     </table>
                 <?php else : ?>
                     <div class="munar-empty-state">
-                        <span class="dashicons dashicons-yes-alt" style="font-size:36px; color:#047857; margin-bottom:12px;"></span>
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px; display:inline-block;"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
                         <h3>All M-Pesa Payments Cleared!</h3>
                         <p>No orders are currently waiting for payment verification.</p>
                     </div>
@@ -1078,7 +1078,7 @@ class Munar_Admin_Portal {
                     </table>
                 <?php else : ?>
                     <div class="munar-empty-state">
-                        <span class="dashicons dashicons-backup" style="font-size:32px; color:#6B7280; margin-bottom:8px;"></span>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px; display:inline-block;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
                         <p>No inventory adjustments recorded yet. Changes made in the Inventory Center will appear here in real time.</p>
                     </div>
                 <?php endif; ?>
