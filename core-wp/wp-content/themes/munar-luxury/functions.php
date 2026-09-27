@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-define( 'MUNAR_THEME_VERSION', '1.0.0' );
+define( 'MUNAR_THEME_VERSION', '1.0.1' );
 define( 'MUNAR_THEME_DIR', get_template_directory() );
 define( 'MUNAR_THEME_URI', get_template_directory_uri() );
 
@@ -58,10 +58,10 @@ function munar_luxury_theme_setup() {
         'thumbnail_image_width' => 600,
         'single_image_width'    => 1000,
         'product_grid'          => array(
-            'default_rows'    => 3,
+            'default_rows'    => 4,
             'min_rows'        => 1,
-            'max_rows'        => 6,
-            'default_columns' => 3,
+            'max_rows'        => 8,
+            'default_columns' => 4,
             'min_columns'     => 2,
             'max_columns'     => 4,
         ),
@@ -71,6 +71,13 @@ function munar_luxury_theme_setup() {
     add_theme_support( 'wc-product-gallery-slider' );
 }
 add_action( 'after_setup_theme', 'munar_luxury_theme_setup' );
+
+/**
+ * Force 4 Columns for WooCommerce Archive and Category Loop
+ */
+add_filter( 'loop_shop_columns', function() {
+    return 4;
+} );
 
 /**
  * Enqueue Styles and Scripts
