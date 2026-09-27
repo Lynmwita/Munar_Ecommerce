@@ -25,6 +25,11 @@ class Munar_Admin_Portal {
         // Enqueue custom luxury admin styling
         add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_assets' ) );
 
+        // Bespoke Munar Luxury Login Portal
+        add_action( 'login_enqueue_scripts', array( __CLASS__, 'custom_login_styles' ) );
+        add_filter( 'login_headerurl', array( __CLASS__, 'custom_login_header_url' ) );
+        add_filter( 'login_headertext', array( __CLASS__, 'custom_login_header_text' ) );
+
         // AJAX handlers
         add_action( 'wp_ajax_munar_verify_mpesa_payment', array( __CLASS__, 'ajax_verify_mpesa' ) );
         add_action( 'wp_ajax_munar_adjust_stock', array( __CLASS__, 'ajax_adjust_stock' ) );
@@ -35,7 +40,7 @@ class Munar_Admin_Portal {
         add_action( 'woocommerce_variation_set_stock', array( __CLASS__, 'on_wc_product_stock_change' ) );
         add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'on_wc_order_status_change' ), 10, 4 );
 
-        // Role restriction for Store Manager
+        // Strict Role Gatekeeper & Admin Access Control
         add_action( 'admin_init', array( __CLASS__, 'enforce_role_permissions' ) );
 
         // Redirect Store Manager to Munar Operations on login
@@ -135,31 +140,279 @@ class Munar_Admin_Portal {
     }
 
     /**
-     * Enforce Least Privilege on Store Manager
+     * Strict Role Gatekeeper & Admin Access Control
      */
     public static function enforce_role_permissions() {
-        if ( ! current_user_can( 'administrator' ) && current_user_can( 'shop_manager' ) ) {
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            return;
+        }
+
+        // 1. If unauthenticated, WordPress naturally forces wp-login.php
+        if ( ! is_user_logged_in() ) {
+            return;
+        }
+
+        // 2. Prevent normal customers and non-staff patrons from accessing /wp-admin/
+        if ( ! current_user_can( 'manage_woocommerce' ) && ! current_user_can( 'edit_posts' ) ) {
+            wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) ?: home_url( '/my-account/' ) );
+            exit;
+        }
+
+        // 3. For Store Manager / Concierge, enforce least privilege
+        if ( ! current_user_can( 'administrator' ) && ( current_user_can( 'shop_manager' ) || current_user_can( 'store_manager' ) ) ) {
             // Remove sensitive core administration menus
-            remove_menu_page( 'options-general.php' ); // Settings
+            remove_menu_page( 'options-general.php' ); // Core Settings
             remove_menu_page( 'plugins.php' );         // Plugins
-            remove_menu_page( 'themes.php' );          // Appearance
+            remove_menu_page( 'themes.php' );          // Appearance / Themes
             remove_menu_page( 'users.php' );           // Users
             remove_menu_page( 'tools.php' );           // Tools
             remove_menu_page( 'edit-comments.php' );   // Comments
             remove_submenu_page( 'woocommerce', 'wc-settings' ); // WC core settings
+
+            // Block direct URL visits to sensitive backend scripts
+            global $pagenow;
+            $blocked_pages = array( 'options-general.php', 'plugins.php', 'themes.php', 'users.php', 'tools.php', 'theme-editor.php', 'plugin-editor.php', 'options.php' );
+            if ( in_array( $pagenow, $blocked_pages ) ) {
+                wp_safe_redirect( admin_url( 'admin.php?page=munar-operations' ) );
+                exit;
+            }
         }
     }
 
     /**
-     * Custom Login Redirect for Store Manager
+     * Custom Login Redirect
      */
     public static function custom_login_redirect( $redirect_to, $request, $user ) {
         if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-            if ( in_array( 'shop_manager', $user->roles ) ) {
+            if ( in_array( 'administrator', $user->roles ) ) {
                 return admin_url( 'admin.php?page=munar-operations' );
+            }
+            if ( in_array( 'shop_manager', $user->roles ) || in_array( 'store_manager', $user->roles ) ) {
+                return admin_url( 'admin.php?page=munar-operations' );
+            }
+            if ( in_array( 'customer', $user->roles ) || in_array( 'subscriber', $user->roles ) ) {
+                return wc_get_page_permalink( 'myaccount' ) ?: home_url( '/my-account/' );
             }
         }
         return $redirect_to;
+    }
+
+    /**
+     * Custom Login Page Header URL
+     */
+    public static function custom_login_header_url() {
+        return home_url( '/' );
+    }
+
+    /**
+     * Custom Login Page Header Text
+     */
+    public static function custom_login_header_text() {
+        return 'Munar Luxury Atelier — Private Concierge Portal';
+    }
+
+    /**
+     * Custom Luxury Admin Login Page Styling
+     */
+    public static function custom_login_styles() {
+        $logo_url = get_template_directory_uri() . '/assets/images/munar-logo-circle-transparent.png';
+        if ( ! file_exists( get_template_directory() . '/assets/images/munar-logo-circle-transparent.png' ) ) {
+            $logo_url = get_template_directory_uri() . '/assets/images/munar-logo.png';
+        }
+        ?>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style type="text/css">
+            body.login {
+                background: #0d0d0d !important;
+                background-image: radial-gradient(circle at 50% 20%, #261711 0%, #0d0d0d 75%) !important;
+                font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+                color: #faf7f2 !important;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #login {
+                width: 100% !important;
+                max-width: 420px !important;
+                padding: 40px 24px !important;
+                margin: auto !important;
+            }
+            #login h1 {
+                margin-bottom: 24px !important;
+            }
+            #login h1 a {
+                background-image: url('<?php echo esc_url( $logo_url ); ?>') !important;
+                background-size: contain !important;
+                background-repeat: no-repeat !important;
+                background-position: center center !important;
+                width: 130px !important;
+                height: 130px !important;
+                margin: 0 auto 16px auto !important;
+                border-radius: 50% !important;
+                box-shadow: 0 0 30px rgba(197, 168, 128, 0.25) !important;
+                transition: transform 0.3s ease !important;
+            }
+            #login h1 a:hover {
+                transform: scale(1.03) !important;
+            }
+            .login-portal-title {
+                text-align: center;
+                font-family: 'Cormorant Garamond', Georgia, serif;
+                font-size: 1.6rem;
+                font-weight: 500;
+                color: #ebdccb;
+                letter-spacing: 0.08em;
+                margin: 0 0 4px 0;
+            }
+            .login-portal-subtitle {
+                text-align: center;
+                font-size: 0.68rem;
+                text-transform: uppercase;
+                letter-spacing: 0.25em;
+                color: #c5a880;
+                margin: 0 0 24px 0;
+                font-weight: 600;
+            }
+            .login form {
+                background: #141210 !important;
+                border: 1px solid #332e2a !important;
+                border-radius: 4px !important;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+                padding: 36px 30px !important;
+                margin-top: 0 !important;
+            }
+            .login label {
+                font-size: 0.72rem !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.12em !important;
+                color: #ebdccb !important;
+                font-weight: 600 !important;
+                margin-bottom: 6px !important;
+                display: block !important;
+            }
+            .login input[type="text"],
+            .login input[type="password"] {
+                background: #1f1c18 !important;
+                border: 1px solid #4a2f24 !important;
+                color: #faf7f2 !important;
+                border-radius: 2px !important;
+                padding: 12px 14px !important;
+                font-size: 0.95rem !important;
+                box-shadow: none !important;
+                margin-bottom: 20px !important;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+            }
+            .login input[type="text"]:focus,
+            .login input[type="password"]:focus {
+                border-color: #c5a880 !important;
+                box-shadow: 0 0 0 1px #c5a880 !important;
+                outline: none !important;
+            }
+            .login .forgetmenot {
+                float: none !important;
+                margin-bottom: 18px !important;
+            }
+            .login .forgetmenot label {
+                display: inline-flex !important;
+                align-items: center !important;
+                font-size: 0.75rem !important;
+                color: #a89f91 !important;
+                text-transform: none !important;
+                letter-spacing: normal !important;
+                cursor: pointer !important;
+            }
+            .login input[type="checkbox"] {
+                background: #1f1c18 !important;
+                border: 1px solid #4a2f24 !important;
+                border-radius: 2px !important;
+                margin-right: 8px !important;
+            }
+            .login input[type="checkbox"]:checked {
+                background: #c5a880 !important;
+                border-color: #c5a880 !important;
+            }
+            .wp-core-ui .button-primary {
+                background: #c5a880 !important;
+                color: #0d0d0d !important;
+                border: none !important;
+                border-radius: 2px !important;
+                width: 100% !important;
+                padding: 12px 20px !important;
+                font-family: 'Plus Jakarta Sans', sans-serif !important;
+                font-size: 0.78rem !important;
+                font-weight: 700 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.15em !important;
+                height: auto !important;
+                line-height: normal !important;
+                cursor: pointer !important;
+                transition: background 0.25s ease, transform 0.2s ease !important;
+                box-shadow: 0 4px 15px rgba(197, 168, 128, 0.2) !important;
+                margin-top: 6px !important;
+            }
+            .wp-core-ui .button-primary:hover {
+                background: #ebdccb !important;
+                color: #0d0d0d !important;
+                transform: translateY(-1px) !important;
+            }
+            .login #nav,
+            .login #backtoblog {
+                text-align: center !important;
+                padding: 12px 0 0 0 !important;
+                font-size: 0.78rem !important;
+            }
+            .login #nav a,
+            .login #backtoblog a {
+                color: #a89f91 !important;
+                text-decoration: none !important;
+                transition: color 0.2s ease !important;
+            }
+            .login #nav a:hover,
+            .login #backtoblog a:hover {
+                color: #c5a880 !important;
+                text-decoration: underline !important;
+            }
+            .login .message,
+            .login .notice,
+            .login .error {
+                background: #1f1815 !important;
+                border-left: 4px solid #c5a880 !important;
+                border-top: none !important;
+                border-right: none !important;
+                border-bottom: none !important;
+                color: #ebdccb !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+                border-radius: 2px !important;
+                font-size: 0.8125rem !important;
+                padding: 12px 16px !important;
+            }
+            .login .error {
+                border-left-color: #dc2626 !important;
+                color: #fecaca !important;
+            }
+            .language-switcher {
+                display: none !important;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var loginH1 = document.querySelector("#login h1");
+                if (loginH1 && !document.querySelector(".login-portal-title")) {
+                    var titleEl = document.createElement("div");
+                    titleEl.className = "login-portal-title";
+                    titleEl.textContent = "Munar Luxury Atelier";
+                    var subEl = document.createElement("div");
+                    subEl.className = "login-portal-subtitle";
+                    subEl.textContent = "Operations & Concierge Portal";
+                    loginH1.parentNode.insertBefore(titleEl, loginH1.nextSibling);
+                    titleEl.parentNode.insertBefore(subEl, titleEl.nextSibling);
+                }
+            });
+        </script>
+        <?php
     }
 
     /**
