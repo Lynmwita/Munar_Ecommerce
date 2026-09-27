@@ -63,7 +63,7 @@
                     </p>
                     <div class="pt-2 text-xs space-y-1">
                         <p class="text-munar-sand/60">Concierge Desk:</p>
-                        <p class="text-white font-medium">+254 (0) 700 000 000</p>
+                        <p class="text-white font-medium">+254 (0) 112 855 069</p>
                         <p class="text-munar-sand/60 pt-1">Email:</p>
                         <p class="text-white font-medium">concierge@munar.ke</p>
                     </div>
@@ -161,7 +161,7 @@
 </div>
 
 <!-- Floating VIP WhatsApp Button (Bottom Left) -->
-<a href="https://wa.me/254700000000?text=Hello%20Munar%20Atelier,%20I%20would%20like%20to%20inquire%20about%20a%20luxury%20garment." target="_blank" aria-label="Direct WhatsApp Concierge" class="fixed bottom-6 left-6 z-40 bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center group">
+<a href="https://wa.me/254112855069?text=Hello%20Munar%20Atelier,%20I%20would%20like%20to%20inquire%20about%20a%20luxury%20garment." target="_blank" aria-label="Direct WhatsApp Concierge" class="fixed bottom-6 left-6 z-40 bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center group">
     <i data-lucide="message-circle" class="w-6 h-6"></i>
     <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-semibold pl-0 group-hover:pl-2">
         VIP WhatsApp Care

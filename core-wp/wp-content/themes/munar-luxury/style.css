@@ -689,3 +689,59 @@ h1, h2, h3, h4, .font-serif, .editorial-heading {
   color: #ffffff;
 }
 
+/* ==========================================================================
+   Order Pay (Payment Authorization) Screen Styling
+   ========================================================================== */
+.woocommerce-order-pay #order_review {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #faf7f2;
+  border: 1px solid #ebe4d8;
+  padding: 2.5rem;
+}
+
+.woocommerce-order-pay table.shop_table {
+  width: 100%;
+  border: none;
+  margin-bottom: 2rem;
+}
+
+.woocommerce-order-pay table.shop_table th,
+.woocommerce-order-pay table.shop_table td {
+  padding: 0.875rem 0;
+  border-bottom: 1px solid #e8e1d5;
+  font-size: 0.875rem;
+}
+
+.woocommerce-order-pay table.shop_table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--munar-text-muted);
+}
+
+.woocommerce-order-pay #payment {
+  background: transparent;
+  padding: 0;
+}
+
+.woocommerce-order-pay #payment #place_order {
+  width: 100%;
+  height: 52px;
+  background-color: var(--munar-black);
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.woocommerce-order-pay #payment #place_order:hover {
+  background-color: var(--munar-gold);
+}
+

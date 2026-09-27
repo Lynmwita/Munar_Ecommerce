@@ -69,7 +69,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                     <p class="text-xs uppercase tracking-wider font-semibold text-munar-black">Need assistance with size or fitting?</p>
                     <p class="text-xs text-munar-muted">Our master atelier stylists in Westlands are on standby.</p>
                 </div>
-                <a href="https://wa.me/254700000000" target="_blank" class="btn-munar-outline py-2 px-4 text-[10px] whitespace-nowrap bg-white">
+                <a href="https://wa.me/254112855069" target="_blank" class="btn-munar-outline py-2 px-4 text-[10px] whitespace-nowrap bg-white">
                     WhatsApp Concierge
                 </a>
             </div>

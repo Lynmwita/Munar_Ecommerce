@@ -168,9 +168,9 @@
             </div>
             <div class="pt-6 border-t border-munar-border space-y-3">
                 <p class="text-xs uppercase tracking-widest text-munar-muted">Customer Atelier Support</p>
-                <a href="https://wa.me/254700000000" target="_blank" class="flex items-center space-x-2 text-xs font-medium text-emerald-700 hover:underline">
+                <a href="https://wa.me/254112855069" target="_blank" class="flex items-center space-x-2 text-xs font-medium text-emerald-700 hover:underline">
                     <i data-lucide="message-circle" class="w-4 h-4"></i>
-                    <span>Direct WhatsApp Atelier</span>
+                    <span>Direct WhatsApp Atelier (+254 112 855 069)</span>
                 </a>
             </div>
         </div>
