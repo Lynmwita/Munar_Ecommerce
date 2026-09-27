@@ -24,6 +24,7 @@ class Munar_Admin_Portal {
 
         // Enqueue custom luxury admin styling
         add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_assets' ) );
+        add_action( 'admin_head', array( __CLASS__, 'suppress_admin_nag_notices' ) );
 
         // Bespoke Munar Luxury Login Portal
         add_action( 'login_enqueue_scripts', array( __CLASS__, 'custom_login_styles' ) );
@@ -143,6 +144,33 @@ class Munar_Admin_Portal {
     }
 
     /**
+     * Suppress Third-Party Nag Notices, Promo Cards and Connection Banners
+     */
+    public static function suppress_admin_nag_notices() {
+        ?>
+        <style type="text/css">
+            .jetpack-jitm-card,
+            .jp-banner,
+            .jetpack-connection-banner,
+            .jitm-card,
+            .wrap.jetpack-wrap .jp-connect,
+            #wp-admin-bar-jetpack,
+            .notice-warning[class*="jetpack"],
+            .notice-info[class*="jetpack"],
+            .notice.jetpack-message,
+            .updated.fade.jetpack-message,
+            #akismet_comment_form,
+            .e-notice--extended,
+            .woocommerce-message.woocommerce-tracker,
+            .woocommerce-store-alerts,
+            #wpforms-admin-notices {
+                display: none !important;
+            }
+        </style>
+        <?php
+    }
+
+    /**
      * Strict Role Gatekeeper & Admin Access Control
      */
     public static function enforce_role_permissions() {
@@ -179,6 +207,13 @@ class Munar_Admin_Portal {
                 wp_safe_redirect( admin_url( 'admin.php?page=munar-operations' ) );
                 exit;
             }
+        }
+
+        // 4. Default Dashboard Route: Always take staff directly to Munar Operations Command Center
+        global $pagenow;
+        if ( 'index.php' === $pagenow && empty( $_GET ) ) {
+            wp_safe_redirect( admin_url( 'admin.php?page=munar-operations' ) );
+            exit;
         }
     }
 
