@@ -45,6 +45,9 @@ class Munar_Admin_Portal {
 
         // Redirect Store Manager to Munar Operations on login
         add_filter( 'login_redirect', array( __CLASS__, 'custom_login_redirect' ), 10, 3 );
+
+        // Initialize Munar Comprehensive Security Hardening Suite
+        Munar_Security_Hardening::init();
     }
 
     /**
@@ -2091,4 +2094,231 @@ class Munar_Admin_Portal {
 }
 
 Munar_Admin_Portal::init();
+
+/**
+ * =============================================================================
+ * MUNAR LUXURY ATELIER — APPLICATION SECURITY HARDENING SUITE
+ * =============================================================================
+ * Implements defense-in-depth security best practices across WordPress & WooCommerce:
+ * 1. Security Headers (Anti-Clickjacking, MIME Sniffing, XSS, Referrer)
+ * 2. Information Disclosure Prevention (Version stripping, Generator suppression, XML-RPC killswitch)
+ * 3. User Enumeration Defense (REST API /wp/v2/users & author scan block)
+ * 4. Login Brute-Force Protection & Rate Limiting (5 attempts / 15m lockout)
+ * 5. Generic Login Error Masking (prevents username harvesting)
+ * 6. WooCommerce Customer Data IDOR & Authorization Defense
+ * 7. File Upload MIME Whitelist & Sanitization
+ * 8. Dashboard File Editor Lockdown (DISALLOW_FILE_EDIT)
+ */
+class Munar_Security_Hardening {
+
+    const MAX_LOGIN_ATTEMPTS = 5;
+    const LOCKOUT_DURATION   = 900; // 15 minutes in seconds
+
+    public static function init() {
+        // 1. Application-Level HTTP Security Headers
+        add_action( 'send_headers', array( __CLASS__, 'send_security_headers' ) );
+
+        // 2. Information Disclosure Suppression
+        remove_action( 'wp_head', 'wp_generator' );
+        remove_action( 'wp_head', 'rsd_link' );
+        remove_action( 'wp_head', 'wlwmanifest_link' );
+        remove_action( 'wp_head', 'wp_shortlink_wp_head' );
+        add_filter( 'the_generator', '__return_empty_string' );
+        add_filter( 'style_loader_src', array( __CLASS__, 'remove_version_query_strings' ), 999 );
+        add_filter( 'script_loader_src', array( __CLASS__, 'remove_version_query_strings' ), 999 );
+
+        // 3. XML-RPC Lockdown (Mitigate amplification & brute-force vectors)
+        add_filter( 'xmlrpc_enabled', '__return_false' );
+        add_filter( 'xmlrpc_methods', '__return_empty_array' );
+
+        // 4. User Enumeration Defense
+        add_action( 'template_redirect', array( __CLASS__, 'block_author_scans' ) );
+        add_filter( 'rest_endpoints', array( __CLASS__, 'restrict_rest_user_enumeration' ) );
+
+        // 5. Login Brute-Force Rate Limiting & Error Masking
+        add_filter( 'authenticate', array( __CLASS__, 'check_login_rate_limit' ), 25, 3 );
+        add_action( 'wp_login_failed', array( __CLASS__, 'record_failed_login' ) );
+        add_action( 'wp_login', array( __CLASS__, 'clear_failed_logins' ), 10, 2 );
+        add_filter( 'login_errors', array( __CLASS__, 'mask_login_errors' ) );
+
+        // 6. WooCommerce IDOR & Order Privacy Guard
+        add_action( 'template_redirect', array( __CLASS__, 'protect_order_privacy' ) );
+
+        // 7. File Upload Sanitization & MIME Hardening
+        add_filter( 'upload_mimes', array( __CLASS__, 'restrict_upload_mimes' ) );
+
+        // 8. Prevent In-Dashboard File Editing
+        if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
+            define( 'DISALLOW_FILE_EDIT', true );
+        }
+    }
+
+    /**
+     * Send HTTP Security Headers
+     */
+    public static function send_security_headers() {
+        if ( ! headers_sent() ) {
+            header( 'X-Content-Type-Options: nosniff' );
+            header( 'X-Frame-Options: SAMEORIGIN' );
+            header( 'X-XSS-Protection: 1; mode=block' );
+            header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+            header( 'Permissions-Policy: geolocation=(), microphone=(), camera=()' );
+        }
+    }
+
+    /**
+     * Remove Version Query Strings from Frontend Assets
+     */
+    public static function remove_version_query_strings( $src ) {
+        if ( is_admin() ) {
+            return $src;
+        }
+        if ( strpos( $src, 'ver=' ) ) {
+            $src = remove_query_arg( 'ver', $src );
+        }
+        return $src;
+    }
+
+    /**
+     * Block ?author=N User Enumeration Scans
+     */
+    public static function block_author_scans() {
+        if ( is_author() && ! is_user_logged_in() ) {
+            wp_safe_redirect( home_url( '/' ), 301 );
+            exit;
+        }
+    }
+
+    /**
+     * Block Unauthenticated REST API User Endpoint Enumeration (/wp/v2/users)
+     */
+    public static function restrict_rest_user_enumeration( $endpoints ) {
+        if ( ! is_user_logged_in() ) {
+            if ( isset( $endpoints['/wp/v2/users'] ) ) {
+                unset( $endpoints['/wp/v2/users'] );
+            }
+            if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+                unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+            }
+        }
+        return $endpoints;
+    }
+
+    /**
+     * Get Client IP Address Safely
+     */
+    private static function get_client_ip() {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+        return preg_replace( '/[^0-9a-fA-F:.]/', '', $ip );
+    }
+
+    /**
+     * Check Login Rate Limiting before Authenticating
+     */
+    public static function check_login_rate_limit( $user, $username, $password ) {
+        if ( empty( $username ) || empty( $password ) ) {
+            return $user;
+        }
+
+        $ip = self::get_client_ip();
+        $transient_key = 'munar_login_fails_' . md5( $ip );
+        $attempts = (int) get_transient( $transient_key );
+
+        if ( $attempts >= self::MAX_LOGIN_ATTEMPTS ) {
+            return new WP_Error(
+                'munar_rate_limited',
+                __( 'Too many failed login attempts. For atelier security, your IP address is temporarily locked. Please try again in 15 minutes.', 'munar-admin-portal' )
+            );
+        }
+
+        return $user;
+    }
+
+    /**
+     * Record Failed Login Attempt
+     */
+    public static function record_failed_login( $username ) {
+        $ip = self::get_client_ip();
+        $transient_key = 'munar_login_fails_' . md5( $ip );
+        $attempts = (int) get_transient( $transient_key );
+        $attempts++;
+
+        set_transient( $transient_key, $attempts, self::LOCKOUT_DURATION );
+    }
+
+    /**
+     * Clear Failed Login Counter on Successful Authentication
+     */
+    public static function clear_failed_logins( $user_login, $user ) {
+        $ip = self::get_client_ip();
+        delete_transient( 'munar_login_fails_' . md5( $ip ) );
+    }
+
+    /**
+     * Mask Login Errors (Generic message prevents user enumeration)
+     */
+    public static function mask_login_errors( $error ) {
+        if ( ! empty( $error ) ) {
+            return __( 'Invalid login credentials. Please verify your username and password.', 'munar-admin-portal' );
+        }
+        return $error;
+    }
+
+    /**
+     * Protect WooCommerce Order Privacy against IDOR attacks
+     */
+    public static function protect_order_privacy() {
+        if ( ! is_wc_endpoint_url( 'view-order' ) && ! is_wc_endpoint_url( 'order-received' ) ) {
+            return;
+        }
+
+        global $wp;
+        $order_id = absint( $wp->query_vars['view-order'] ?? $wp->query_vars['order-received'] ?? 0 );
+        if ( ! $order_id ) {
+            return;
+        }
+
+        $order = wc_get_order( $order_id );
+        if ( ! $order ) {
+            return;
+        }
+
+        // If staff, allow access
+        if ( current_user_can( 'manage_woocommerce' ) ) {
+            return;
+        }
+
+        // If guest order or customer order, ensure customer ownership
+        $current_user_id = get_current_user_id();
+        $order_user_id   = $order->get_customer_id();
+
+        if ( $order_user_id > 0 && $order_user_id !== $current_user_id ) {
+            wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
+            exit;
+        }
+
+        // For guest orders on order-received, verify order key parameter
+        if ( 0 === $order_user_id && is_wc_endpoint_url( 'order-received' ) ) {
+            $key = isset( $_GET['key'] ) ? sanitize_text_field( $_GET['key'] ) : '';
+            if ( empty( $key ) || $key !== $order->get_order_key() ) {
+                wp_safe_redirect( home_url( '/' ) );
+                exit;
+            }
+        }
+    }
+
+    /**
+     * Restrict Upload MIME Types to Safe Extensions
+     */
+    public static function restrict_upload_mimes( $mimes ) {
+        // Explicitly remove unsafe executable types if present
+        $dangerous_types = array( 'exe', 'sh', 'php', 'phtml', 'php3', 'php4', 'php5', 'pl', 'py', 'cgi', 'bat', 'cmd', 'vbs' );
+        foreach ( $dangerous_types as $type ) {
+            if ( isset( $mimes[ $type ] ) ) {
+                unset( $mimes[ $type ] );
+            }
+        }
+        return $mimes;
+    }
+}
 
