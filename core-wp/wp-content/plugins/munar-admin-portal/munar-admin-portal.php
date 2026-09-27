@@ -30,6 +30,11 @@ class Munar_Admin_Portal {
         add_action( 'wp_ajax_munar_adjust_stock', array( __CLASS__, 'ajax_adjust_stock' ) );
         add_action( 'wp_ajax_munar_quick_status_change', array( __CLASS__, 'ajax_quick_status' ) );
 
+        // Native WooCommerce hooks for transparent audit logging
+        add_action( 'woocommerce_product_set_stock', array( __CLASS__, 'on_wc_product_stock_change' ) );
+        add_action( 'woocommerce_variation_set_stock', array( __CLASS__, 'on_wc_product_stock_change' ) );
+        add_action( 'woocommerce_order_status_changed', array( __CLASS__, 'on_wc_order_status_change' ), 10, 4 );
+
         // Role restriction for Store Manager
         add_action( 'admin_init', array( __CLASS__, 'enforce_role_permissions' ) );
 
@@ -254,6 +259,44 @@ class Munar_Admin_Portal {
                 </a>
             </div>
 
+            <!-- Dedicated Order Attention Bar (Click -> Handle It) -->
+            <div class="munar-attention-bar">
+                <div class="attention-title">
+                    <span class="pulse-icon">⚡</span>
+                    <h3>Action Required:</h3>
+                </div>
+                <div class="attention-cards-wrapper">
+                    
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-mpesa-desk' ) ); ?>" class="attention-card card-mpesa-pay <?php echo $pending_count > 0 ? 'card-active' : 'card-dormant'; ?>">
+                        <div class="attention-badge"><?php echo esc_html( $pending_count ); ?></div>
+                        <div class="attention-body">
+                            <strong><?php echo esc_html( $pending_count ); ?> payment<?php echo $pending_count === 1 ? '' : 's'; ?> awaiting verification</strong>
+                            <span>Click &rarr; Open M-Pesa Desk</span>
+                        </div>
+                    </a>
+
+                    <a href="<?php echo esc_url( admin_url( 'edit.php?post_status=wc-processing&post_type=shop_order' ) ); ?>" class="attention-card card-processing <?php echo $processing_count > 0 ? 'card-active' : 'card-dormant'; ?>">
+                        <div class="attention-badge"><?php echo esc_html( $processing_count ); ?></div>
+                        <div class="attention-body">
+                            <strong><?php echo esc_html( $processing_count ); ?> order<?php echo $processing_count === 1 ? '' : 's'; ?> ready for processing</strong>
+                            <span>Click &rarr; View & Dispatch</span>
+                        </div>
+                    </a>
+
+                    <?php
+                    $failed_count = count( wc_get_orders( array( 'status' => array( 'failed', 'cancelled' ), 'limit' => -1 ) ) );
+                    ?>
+                    <a href="<?php echo esc_url( admin_url( 'edit.php?post_status=wc-failed&post_type=shop_order' ) ); ?>" class="attention-card card-failed <?php echo $failed_count > 0 ? 'card-active' : 'card-dormant'; ?>">
+                        <div class="attention-badge"><?php echo esc_html( $failed_count ); ?></div>
+                        <div class="attention-body">
+                            <strong><?php echo esc_html( $failed_count ); ?> failed order<?php echo $failed_count === 1 ? '' : 's'; ?></strong>
+                            <span>Click &rarr; Review Details</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
             <!-- Operational Metric KPI Cards -->
             <div class="munar-stats-grid">
                 
@@ -264,9 +307,9 @@ class Munar_Admin_Portal {
                 </div>
 
                 <div class="munar-stat-card <?php echo $pending_count > 0 ? 'card-alert-green' : ''; ?>">
-                    <div class="stat-label">M-Pesa Verifications Awaiting</div>
+                    <div class="stat-label">M-Pesa Queue</div>
                     <div class="stat-value"><?php echo esc_html( $pending_count ); ?></div>
-                    <div class="stat-meta">Direct transfers requiring verification</div>
+                    <div class="stat-meta">Awaiting 0112855069 verification</div>
                 </div>
 
                 <div class="munar-stat-card">
@@ -275,16 +318,22 @@ class Munar_Admin_Portal {
                     <div class="stat-meta">Currently being tailored / packed</div>
                 </div>
 
-                <div class="munar-stat-card <?php echo $low_stock_count > 0 ? 'card-alert-orange' : ''; ?>">
-                    <div class="stat-label">Low Stock Alerts (≤ 2 units)</div>
-                    <div class="stat-value"><?php echo esc_html( $low_stock_count ); ?></div>
-                    <div class="stat-meta">Approaching depletion threshold</div>
-                </div>
-
-                <div class="munar-stat-card <?php echo $out_stock_count > 0 ? 'card-alert-red' : ''; ?>">
-                    <div class="stat-label">Out of Stock Pieces</div>
-                    <div class="stat-value"><?php echo esc_html( $out_stock_count ); ?></div>
-                    <div class="stat-meta">Needs workshop restock</div>
+                <div class="munar-stat-card card-health-grid">
+                    <div class="stat-label">Inventory Health</div>
+                    <div class="health-breakdown">
+                        <div class="health-pill-item">
+                            <span class="health-dot dot-green"></span>
+                            <span class="health-txt">🟢 <strong><?php echo esc_html( self::get_healthy_stock_count() ); ?></strong> Healthy</span>
+                        </div>
+                        <div class="health-pill-item">
+                            <span class="health-dot dot-orange"></span>
+                            <span class="health-txt">🟠 <strong><?php echo esc_html( $low_stock_count ); ?></strong> Low Stock (≤2)</span>
+                        </div>
+                        <div class="health-pill-item">
+                            <span class="health-dot dot-red"></span>
+                            <span class="health-txt">🔴 <strong><?php echo esc_html( $out_stock_count ); ?></strong> Out of Stock</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="munar-stat-card">
@@ -381,7 +430,7 @@ class Munar_Admin_Portal {
                 <!-- Right: Low Stock Alerts & Inventory Health -->
                 <div class="munar-card-box">
                     <div class="box-header">
-                        <h2>⚠ Inventory Health & Low Stock (≤ 2 units)</h2>
+                        <h2>⚠ Inventory Health Overview</h2>
                         <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory' ) ); ?>" class="box-link">Inventory Center &rarr;</a>
                     </div>
 
@@ -400,9 +449,13 @@ class Munar_Admin_Portal {
                                         <p>SKU: <code><?php echo esc_html( $prod->get_sku() ?: 'N/A' ); ?></code> &bull; Price: KSh <?php echo esc_html( number_format( (float) $prod->get_price(), 2 ) ); ?></p>
                                     </div>
                                     <div class="stock-item-controls">
-                                        <span class="stock-pill <?php echo $stock === 0 ? 'pill-out' : 'pill-low'; ?>">
-                                            <?php echo $stock === 0 ? 'Out of Stock' : $stock . ' Left (≤2)'; ?>
-                                        </span>
+                                        <?php if ( $stock === 0 || ! $prod->is_in_stock() ) : ?>
+                                            <span class="stock-pill pill-out">🔴 Out of Stock</span>
+                                        <?php elseif ( $stock <= 2 ) : ?>
+                                            <span class="stock-pill pill-low">🟠 Low Stock (<?php echo esc_html( $stock ); ?> Left)</span>
+                                        <?php else : ?>
+                                            <span class="stock-pill pill-ok">🟢 Healthy (<?php echo esc_html( $stock ); ?> In Stock)</span>
+                                        <?php endif; ?>
                                         <button class="btn-quick-adjust" data-product-id="<?php echo esc_attr( $p_id ); ?>" data-current="<?php echo esc_attr( $stock ); ?>">
                                             + Restock
                                         </button>
@@ -413,7 +466,7 @@ class Munar_Admin_Portal {
                     <?php else : ?>
                         <div class="munar-empty-state">
                             <span class="dashicons dashicons-shield-alt" style="font-size:32px; color:#047857; margin-bottom:8px;"></span>
-                            <p>Inventory looks healthy! No products are currently below the 2-unit threshold.</p>
+                            <p>Inventory is 🟢 Healthy! No items are currently at or below the 2-unit threshold.</p>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -565,13 +618,15 @@ class Munar_Admin_Portal {
             <!-- Filter Tabs -->
             <div class="munar-tab-bar">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=all' ) ); ?>" class="tab-item <?php echo 'all' === $filter ? 'tab-active' : ''; ?>">All Pieces</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=healthy' ) ); ?>" class="tab-item <?php echo 'healthy' === $filter ? 'tab-active' : ''; ?>">
+                    🟢 Healthy Stock <span class="tab-count"><?php echo esc_html( self::get_healthy_stock_count() ); ?></span>
+                </a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=low_stock' ) ); ?>" class="tab-item <?php echo 'low_stock' === $filter ? 'tab-active' : ''; ?>">
-                    Low Stock (≤2 units) <span class="tab-count"><?php echo esc_html( self::get_low_stock_count() ); ?></span>
+                    🟠 Low Stock (≤2 units) <span class="tab-count"><?php echo esc_html( self::get_low_stock_count() ); ?></span>
                 </a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=out_of_stock' ) ); ?>" class="tab-item <?php echo 'out_of_stock' === $filter ? 'tab-active' : ''; ?>">
-                    Out of Stock <span class="tab-count"><?php echo esc_html( self::get_out_of_stock_count() ); ?></span>
+                    🔴 Out of Stock <span class="tab-count"><?php echo esc_html( self::get_out_of_stock_count() ); ?></span>
                 </a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=healthy' ) ); ?>" class="tab-item <?php echo 'healthy' === $filter ? 'tab-active' : ''; ?>">Healthy Stock</a>
             </div>
 
             <div class="munar-card-box">
@@ -584,7 +639,7 @@ class Munar_Admin_Portal {
                             <th>Category</th>
                             <th>Price</th>
                             <th>Stock Quantity</th>
-                            <th>Status</th>
+                            <th>Inventory Health</th>
                             <th>Restock Adjustment</th>
                         </tr>
                     </thead>
@@ -613,12 +668,12 @@ class Munar_Admin_Portal {
                                     </span>
                                 </td>
                                 <td>
-                                    <?php if ( $qty !== null && $qty <= 2 && $qty > 0 ) : ?>
-                                        <span class="stock-pill pill-low">Low Stock (≤2)</span>
-                                    <?php elseif ( ! $p->is_in_stock() || $qty === 0 ) : ?>
-                                        <span class="stock-pill pill-out">Out of Stock</span>
+                                    <?php if ( ! $p->is_in_stock() || $qty === 0 ) : ?>
+                                        <span class="stock-pill pill-out">🔴 Out of Stock</span>
+                                    <?php elseif ( $qty !== null && $qty <= 2 ) : ?>
+                                        <span class="stock-pill pill-low">🟠 Low Stock (<?php echo esc_html( $qty ); ?> Left)</span>
                                     <?php else : ?>
-                                        <span class="stock-pill pill-ok">Healthy</span>
+                                        <span class="stock-pill pill-ok">🟢 Healthy (<?php echo esc_html( $qty ); ?> Units)</span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -659,24 +714,54 @@ class Munar_Admin_Portal {
             <div class="munar-header-bar">
                 <div class="munar-header-left">
                     <span class="munar-badge">Operational Accountability</span>
-                    <h1>Stock Movement & Audit Trail</h1>
-                    <p>Permanent log of all inventory adjustments, supplier restocks, and operational events.</p>
+                    <h1>Stock Movement & Operational Audit Trail</h1>
+                    <p>Transparent accountability logs for all atelier stock adjustments, M-Pesa verifications, and order status updates.</p>
                 </div>
             </div>
 
+            <!-- Audit Overview Cards -->
             <div class="munar-card-box">
                 <div class="box-header">
-                    <h2>Recent Inventory Activity Log</h2>
+                    <h2>Live Activity Stream</h2>
+                    <span class="text-muted"><?php echo count( $audit_logs ); ?> recorded event(s)</span>
                 </div>
 
                 <?php if ( ! empty( $audit_logs ) ) : ?>
+                    
+                    <!-- Timeline narrative feed -->
+                    <div class="munar-narrative-feed">
+                        <?php foreach ( array_slice( $audit_logs, 0, 15 ) as $log ) : 
+                            $time_fmt = date( 'H:i', strtotime( $log['date'] ) );
+                            $date_fmt = date( 'M j, Y', strtotime( $log['date'] ) );
+                            $staff_role = ! empty( $log['role'] ) ? $log['role'] : 'Store Manager';
+                            $staff_name = ! empty( $log['user'] ) ? $log['user'] : 'Staff';
+                        ?>
+                            <div class="narrative-event-row">
+                                <span class="narrative-dot"></span>
+                                <div class="narrative-content">
+                                    <div class="narrative-text">
+                                        <strong><?php echo esc_html( $staff_role . ' ' . $staff_name ); ?></strong> 
+                                        adjusted <strong><?php echo esc_html( $log['product'] ); ?></strong> 
+                                        from <span class="badge-prev"><?php echo esc_html( $log['prev'] ); ?></span> &rarr; <span class="badge-new"><?php echo esc_html( $log['new'] ); ?></span> 
+                                        at <span class="time-stamp"><?php echo esc_html( $time_fmt ); ?></span>.
+                                        <?php if ( ! empty( $log['reason'] ) ) : ?>
+                                            <span class="narrative-reason">Reason: <em><?php echo esc_html( $log['reason'] ); ?></em></span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="narrative-meta"><?php echo esc_html( $date_fmt ); ?> &bull; Accountability Log ID #<?php echo esc_html( substr( md5( $log['date'] . $log['product'] ), 0, 6 ) ); ?></div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <h3 style="margin-top: 30px; margin-bottom: 14px; font-family:'Cormorant Garamond', Georgia, serif; font-size:1.3rem;">Detailed Records Table</h3>
                     <table class="munar-table">
                         <thead>
                             <tr>
                                 <th>Date & Time</th>
-                                <th>Product Name</th>
+                                <th>Item / Event</th>
                                 <th>Previous Stock</th>
-                                <th>Change</th>
+                                <th>Adjustment</th>
                                 <th>New Stock</th>
                                 <th>Reason</th>
                                 <th>Staff Member</th>
@@ -695,7 +780,7 @@ class Munar_Admin_Portal {
                                     </td>
                                     <td><strong><?php echo esc_html( $log['new'] ); ?></strong></td>
                                     <td><em><?php echo esc_html( $log['reason'] ); ?></em></td>
-                                    <td><span class="user-chip-small"><?php echo esc_html( $log['user'] ); ?></span></td>
+                                    <td><span class="user-chip-small"><?php echo esc_html( ($log['role'] ?? 'Staff') . ': ' . $log['user'] ); ?></span></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -703,7 +788,7 @@ class Munar_Admin_Portal {
                 <?php else : ?>
                     <div class="munar-empty-state">
                         <span class="dashicons dashicons-backup" style="font-size:32px; color:#6B7280; margin-bottom:8px;"></span>
-                        <p>No manual stock adjustments recorded yet. Changes made in the Inventory Center will appear here.</p>
+                        <p>No inventory adjustments recorded yet. Changes made in the Inventory Center will appear here in real time.</p>
                     </div>
                 <?php endif; ?>
             </div>
@@ -857,6 +942,66 @@ class Munar_Admin_Portal {
     }
 
     // =========================================================================
+    // NATIVE WOOCOMMERCE HOOKS & AUDIT LOGGING
+    // =========================================================================
+
+    /**
+     * Native Hook: Listens to standard WooCommerce product/variation stock mutations
+     */
+    public static function on_wc_product_stock_change( $product ) {
+        if ( ! is_a( $product, 'WC_Product' ) ) {
+            return;
+        }
+
+        // Avoid infinite loop if we are currently running our ajax adjuster
+        if ( defined( 'MUNAR_AJAX_ADJUSTING' ) && MUNAR_AJAX_ADJUSTING ) {
+            return;
+        }
+
+        $current_user = wp_get_current_user();
+        $user_name = $current_user->exists() ? $current_user->display_name : 'System / Store Front';
+        $user_role = 'Staff';
+
+        if ( $current_user->exists() ) {
+            if ( in_array( 'administrator', (array) $current_user->roles ) ) {
+                $user_role = 'Administrator';
+            } elseif ( in_array( 'shop_manager', (array) $current_user->roles ) || in_array( 'store_manager', (array) $current_user->roles ) ) {
+                $user_role = 'Store Manager';
+            }
+        }
+
+        $new_qty = (int) $product->get_stock_quantity();
+        $prev_qty = (int) get_post_meta( $product->get_id(), '_munar_last_known_stock', true );
+        
+        if ( $new_qty !== $prev_qty ) {
+            $delta = $new_qty - $prev_qty;
+            $change_str = ( $delta >= 0 ? '+' : '' ) . $delta . ' units';
+            self::log_audit( $product->get_name(), $prev_qty, $change_str, $new_qty, 'WooCommerce Catalog Edit', $user_name, $user_role );
+            update_post_meta( $product->get_id(), '_munar_last_known_stock', $new_qty );
+        }
+    }
+
+    /**
+     * Native Hook: Logs order status transitions
+     */
+    public static function on_wc_order_status_change( $order_id, $old_status, $new_status, $order ) {
+        $current_user = wp_get_current_user();
+        $user_name = $current_user->exists() ? $current_user->display_name : 'Automated M-Pesa Hook';
+        $user_role = 'Staff';
+
+        if ( $current_user->exists() ) {
+            if ( in_array( 'administrator', (array) $current_user->roles ) ) {
+                $user_role = 'Administrator';
+            } elseif ( in_array( 'shop_manager', (array) $current_user->roles ) || in_array( 'store_manager', (array) $current_user->roles ) ) {
+                $user_role = 'Store Manager';
+            }
+        }
+
+        $reason = sprintf( 'Order #MNR-%d transitioned: %s &rarr; %s', $order_id, wc_get_order_status_name( $old_status ), wc_get_order_status_name( $new_status ) );
+        self::log_audit( 'Order #MNR-' . $order_id, $old_status, 'Status Updated', $new_status, $reason, $user_name, $user_role );
+    }
+
+    // =========================================================================
     // AJAX ACTIONS
     // =========================================================================
     public static function ajax_verify_mpesa() {
@@ -872,14 +1017,17 @@ class Munar_Admin_Portal {
             wp_send_json_error( 'Order not found.' );
         }
 
-        $user = wp_get_current_user()->display_name;
+        $current_user = wp_get_current_user();
+        $user_name = $current_user->display_name;
+        $user_role = in_array( 'administrator', (array) $current_user->roles ) ? 'Administrator' : 'Store Manager';
+
         $order->payment_complete();
-        $order->update_status( 'processing', sprintf( __( 'Payment manually verified on M-Pesa desk by %s.', 'munar-admin-portal' ), $user ) );
-        $order->add_order_note( sprintf( __( 'Lipa na M-Pesa transfer confirmed by staff: %s', 'munar-admin-portal' ), $user ) );
+        $order->update_status( 'processing', sprintf( __( 'Payment manually verified on M-Pesa desk by %s (%s).', 'munar-admin-portal' ), $user_role, $user_name ) );
+        $order->add_order_note( sprintf( __( 'Lipa na M-Pesa transfer confirmed by %s: %s', 'munar-admin-portal' ), $user_role, $user_name ) );
         $order->save();
 
         // Log to audit
-        self::log_audit( 'Payment Verified', '#' . $order_id, 'Status updated: On Hold -> Processing', $user );
+        self::log_audit( 'Payment Verified', 'Pending Payment', 'Status: Processing', 'Verified', 'Lipa na M-Pesa payment confirmed for Order #MNR-' . $order_id, $user_name, $user_role );
 
         wp_send_json_success( array( 'message' => 'Payment verified successfully!' ) );
     }
@@ -890,9 +1038,13 @@ class Munar_Admin_Portal {
             wp_send_json_error( 'Permission denied.' );
         }
 
+        if ( ! defined( 'MUNAR_AJAX_ADJUSTING' ) ) {
+            define( 'MUNAR_AJAX_ADJUSTING', true );
+        }
+
         $product_id = isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : 0;
         $adjustment = isset( $_POST['adjustment'] ) ? intval( $_POST['adjustment'] ) : 0;
-        $reason     = isset( $_POST['reason'] ) ? sanitize_text_field( $_POST['reason'] ) : 'Manual update';
+        $reason     = isset( $_POST['reason'] ) ? sanitize_text_field( $_POST['reason'] ) : 'Manual restock';
 
         $product = wc_get_product( $product_id );
         if ( ! $product ) {
@@ -905,11 +1057,15 @@ class Munar_Admin_Portal {
         $product->set_stock_quantity( $new_qty );
         $product->set_stock_status( $new_qty > 0 ? 'instock' : 'outofstock' );
         $product->save();
+        update_post_meta( $product_id, '_munar_last_known_stock', $new_qty );
 
-        $user = wp_get_current_user()->display_name;
-        $change_str = ($adjustment >= 0 ? '+' : '') . $adjustment . ' units';
+        $current_user = wp_get_current_user();
+        $user_name = $current_user->display_name;
+        $user_role = in_array( 'administrator', (array) $current_user->roles ) ? 'Administrator' : 'Store Manager';
 
-        self::log_audit( $product->get_name(), $prev_qty, $change_str, $new_qty, $reason, $user );
+        $change_str = ( $adjustment >= 0 ? '+' : '' ) . $adjustment . ' units';
+
+        self::log_audit( $product->get_name(), $prev_qty, $change_str, $new_qty, $reason, $user_name, $user_role );
 
         wp_send_json_success( array(
             'new_qty' => $new_qty,
@@ -928,15 +1084,19 @@ class Munar_Admin_Portal {
         $order = wc_get_order( $order_id );
 
         if ( $order ) {
-            $user = wp_get_current_user()->display_name;
-            $order->update_status( $new_status, sprintf( __( 'Status updated to %s by %s.', 'munar-admin-portal' ), $new_status, $user ) );
-            self::log_audit( 'Order Status Change', '#' . $order_id, 'Status changed to ' . $new_status, $user );
+            $current_user = wp_get_current_user();
+            $user_name = $current_user->display_name;
+            $user_role = in_array( 'administrator', (array) $current_user->roles ) ? 'Administrator' : 'Store Manager';
+            $old_status = $order->get_status();
+
+            $order->update_status( $new_status, sprintf( __( 'Status updated to %s by %s (%s).', 'munar-admin-portal' ), $new_status, $user_role, $user_name ) );
+            self::log_audit( 'Order #MNR-' . $order_id, $old_status, 'Updated', $new_status, 'Dispatched / Handled via Command Center', $user_name, $user_role );
             wp_send_json_success();
         }
         wp_send_json_error();
     }
 
-    private static function log_audit( $product, $prev = '', $change = '', $new = '', $reason = '', $user = '' ) {
+    private static function log_audit( $product, $prev = '', $change = '', $new = '', $reason = '', $user = '', $role = 'Store Manager' ) {
         $logs = get_option( 'munar_inventory_audit_log', array() );
         $logs[] = array(
             'date'    => current_time( 'mysql' ),
@@ -946,6 +1106,7 @@ class Munar_Admin_Portal {
             'new'     => $new,
             'reason'  => $reason,
             'user'    => $user ?: wp_get_current_user()->display_name,
+            'role'    => $role,
         );
         // Keep last 200 logs
         if ( count( $logs ) > 200 ) {
@@ -970,6 +1131,18 @@ class Munar_Admin_Portal {
         foreach ( $products as $p ) {
             $qty = $p->get_stock_quantity();
             if ( $qty !== null && $qty <= 2 && $qty > 0 ) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    private static function get_healthy_stock_count() {
+        $products = wc_get_products( array( 'limit' => -1 ) );
+        $count = 0;
+        foreach ( $products as $p ) {
+            $qty = $p->get_stock_quantity();
+            if ( $p->is_in_stock() && ( $qty === null || $qty > 2 ) ) {
                 $count++;
             }
         }
@@ -1071,6 +1244,106 @@ class Munar_Admin_Portal {
                 display: inline-block;
             }
 
+            /* Dedicated Order Attention Bar */
+            .munar-attention-bar {
+                background: #ffffff;
+                border: 1px solid var(--munar-border);
+                border-left: 4px solid #4a2f24;
+                border-radius: 4px;
+                padding: 16px 20px;
+                margin-bottom: 24px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            }
+            .attention-title {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            .attention-title h3 {
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.15em;
+                margin: 0;
+                color: #4a2f24;
+                font-weight: 700;
+            }
+            .pulse-icon {
+                font-size: 1rem;
+                color: #d97706;
+            }
+            .attention-cards-wrapper {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 14px;
+            }
+            .attention-card {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 14px 18px;
+                border-radius: 4px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                border: 1px solid #e5e7eb;
+            }
+            .attention-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            }
+            .attention-card.card-active.card-mpesa-pay {
+                background: #ecfdf5;
+                border-color: #a7f3d0;
+                color: #065f46;
+            }
+            .attention-card.card-active.card-processing {
+                background: #eff6ff;
+                border-color: #bfdbfe;
+                color: #1e40af;
+            }
+            .attention-card.card-active.card-failed {
+                background: #fef2f2;
+                border-color: #fecaca;
+                color: #991b1b;
+            }
+            .attention-card.card-dormant {
+                background: #f9fafb;
+                border-color: #e5e7eb;
+                color: #6b7280;
+                opacity: 0.8;
+            }
+            .attention-badge {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 1.1rem;
+                flex-shrink: 0;
+            }
+            .card-mpesa-pay .attention-badge { background: #047857; color: #ffffff; }
+            .card-processing .attention-badge { background: #2563eb; color: #ffffff; }
+            .card-failed .attention-badge { background: #dc2626; color: #ffffff; }
+            .card-dormant .attention-badge { background: #e5e7eb; color: #6b7280; }
+            .attention-body {
+                display: flex;
+                flex-direction: column;
+            }
+            .attention-body strong {
+                font-size: 0.875rem;
+                line-height: 1.2;
+                margin-bottom: 2px;
+            }
+            .attention-body span {
+                font-size: 0.72rem;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                font-weight: 600;
+                opacity: 0.85;
+            }
+
             /* Quick Action Buttons */
             .munar-quick-actions {
                 display: flex;
@@ -1150,6 +1423,21 @@ class Munar_Admin_Portal {
             .card-alert-green { border-top: 3px solid #047857; }
             .card-alert-orange { border-top: 3px solid #d97706; }
             .card-alert-red { border-top: 3px solid #dc2626; }
+
+            /* Health Breakdown */
+            .health-breakdown {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                margin-top: 6px;
+            }
+            .health-pill-item {
+                font-size: 0.8rem;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                color: #1f2937;
+            }
 
             /* Two Column Layout */
             .munar-split-grid {
@@ -1262,15 +1550,82 @@ class Munar_Admin_Portal {
 
             /* Stock Pills */
             .stock-pill {
-                display: inline-block;
-                padding: 3px 8px;
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 4px 10px;
                 border-radius: 12px;
                 font-size: 0.72rem;
                 font-weight: 600;
             }
-            .pill-low { background: #fef3c7; color: #b45309; }
-            .pill-out { background: #fee2e2; color: #b91c1c; }
-            .pill-ok { background: #e0e7ff; color: #3730a3; }
+            .pill-low { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+            .pill-out { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+            .pill-ok { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+
+            /* Narrative Audit Feed */
+            .munar-narrative-feed {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                background: #faf7f2;
+                border: 1px solid #e6dfd5;
+                border-radius: 4px;
+                padding: 16px 20px;
+                margin-bottom: 20px;
+            }
+            .narrative-event-row {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                padding-bottom: 10px;
+                border-bottom: 1px dashed #e6dfd5;
+            }
+            .narrative-event-row:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+            .narrative-dot {
+                width: 8px;
+                height: 8px;
+                background: #4a2f24;
+                border-radius: 50%;
+                margin-top: 6px;
+                flex-shrink: 0;
+            }
+            .narrative-content {
+                font-size: 0.85rem;
+                line-height: 1.5;
+            }
+            .badge-prev, .badge-new {
+                background: #ffffff;
+                border: 1px solid #d1d5db;
+                padding: 1px 6px;
+                border-radius: 3px;
+                font-weight: bold;
+            }
+            .time-stamp {
+                font-weight: 700;
+                color: #4a2f24;
+            }
+            .narrative-reason {
+                display: block;
+                font-size: 0.75rem;
+                color: #6b7280;
+                margin-top: 2px;
+            }
+            .narrative-meta {
+                font-size: 0.7rem;
+                color: #9ca3af;
+                margin-top: 2px;
+            }
+            .change-tag {
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-size: 0.72rem;
+                font-weight: bold;
+            }
+            .tag-plus { background: #d1fae5; color: #065f46; }
+            .tag-minus { background: #fee2e2; color: #991b1b; }
 
             /* Action Buttons */
             .btn-verify-quick, .btn-verify-large {
@@ -1452,6 +1807,7 @@ class Munar_Admin_Portal {
                         if (res.success) {
                             $('#qty-val-' + pId).text(res.data.new_qty);
                             alert('Inventory updated! New stock: ' + res.data.new_qty + ' units.');
+                            location.reload();
                         }
                     });
                 });
@@ -1482,3 +1838,4 @@ class Munar_Admin_Portal {
 }
 
 Munar_Admin_Portal::init();
+
