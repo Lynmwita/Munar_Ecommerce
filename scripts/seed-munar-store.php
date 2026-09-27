@@ -14,20 +14,20 @@ error_reporting(E_ERROR | E_PARSE);
 
 require_once('/opt/lampp/htdocs/wordpress/wp-load.php');
 
-echo "🏛️ Initializing Munar Luxury E-Commerce Seeder...\n";
+echo "️ Initializing Munar Luxury E-Commerce Seeder...\n";
 
 // 1. Activate Munar Theme if files are linked
 $theme_slug = 'munar-luxury';
 $themes = wp_get_themes();
 if (isset($themes[$theme_slug])) {
     switch_theme($theme_slug);
-    echo "✅ Theme activated: Munar Luxury Atelier\n";
+    echo " Theme activated: Munar Luxury Atelier\n";
 } else {
     echo "ℹ️ Note: Munar theme not yet linked in /opt/lampp/htdocs/wordpress/wp-content/themes/\n";
 }
 
 // 2. Configure WooCommerce General & Currency Settings
-echo "⚙️ Configuring Luxury Store & Currency Settings...\n";
+echo "️ Configuring Luxury Store & Currency Settings...\n";
 update_option('woocommerce_currency', 'KES');
 update_option('woocommerce_currency_pos', 'left_space');
 update_option('woocommerce_price_thousand_sep', ',');
@@ -42,7 +42,7 @@ update_option('woocommerce_enable_signup_and_login_from_checkout', 'yes');
 update_option('woocommerce_default_country', 'KE');
 
 // 3. Configure M-Pesa Payment Gateway Settings
-echo "💳 Configuring Safaricom Daraja M-Pesa & VIP Payment Methods...\n";
+echo " Configuring Safaricom Daraja M-Pesa & VIP Payment Methods...\n";
 $mpesa_settings = array(
     'enabled'            => 'yes',
     'title'              => 'Lipa na M-Pesa (Daraja STK Push)',
@@ -70,7 +70,7 @@ $gateways_order = array('munar_mpesa', 'cod');
 update_option('woocommerce_gateway_order', $gateways_order);
 
 // 4. Create Product Categories
-echo "📁 Setting up Luxury Categories...\n";
+echo " Setting up Luxury Categories...\n";
 $categories = array(
     'womens-atelier' => array(
         'name'        => "Women's Atelier",
@@ -336,7 +336,7 @@ $products = array(
 );
 
 // 6. Insert or Update Products
-echo "🛍️ Seeding Curated Luxury Products...\n";
+echo "️ Seeding Curated Luxury Products...\n";
 require_once(ABSPATH . 'wp-admin/includes/image.php');
 require_once(ABSPATH . 'wp-admin/includes/file.php');
 require_once(ABSPATH . 'wp-admin/includes/media.php');
@@ -412,7 +412,7 @@ foreach ($products as $pdata) {
 }
 
 // 7. Ensure WooCommerce core pages are assigned
-echo "📄 Verifying WooCommerce Core Pages...\n";
+echo " Verifying WooCommerce Core Pages...\n";
 $shop_page = get_page_by_path('shop');
 if ($shop_page) {
     update_option('woocommerce_shop_page_id', $shop_page->ID);
@@ -443,8 +443,8 @@ if (!$lookbook_page) {
     echo "  + Created Lookbook page (ID: $lb_id)\n";
 }
 
-echo "\n✨ ==================================================\n";
-echo "🎉 Munar Luxury Store Seeded Successfully!\n";
-echo "🛍️ 8 Haute Couture products created with prices in KSh.\n";
-echo "💳 Safaricom Daraja M-Pesa & VIP Concierge payments configured.\n";
+echo "\n ==================================================\n";
+echo " Munar Luxury Store Seeded Successfully!\n";
+echo "️ 8 Haute Couture products created with prices in KSh.\n";
+echo " Safaricom Daraja M-Pesa & VIP Concierge payments configured.\n";
 echo "====================================================\n";

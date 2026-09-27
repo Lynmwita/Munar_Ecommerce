@@ -29,7 +29,7 @@ echo "Custom Callback:    " . (empty($gateway->custom_callback_url) ? "[DEFAULT:
 echo "----------------------------------------------------\n";
 
 if (empty($gateway->consumer_key) || empty($gateway->consumer_sec)) {
-    echo "⚠️  STATUS: Gateway is running in DEMO MODE.\n";
+    echo "️  STATUS: Gateway is running in DEMO MODE.\n";
     echo "    To test live STK pushes to a real phone, add your Consumer Key\n";
     echo "    and Secret under WP Admin > WooCommerce > Settings > Payments > Lipa na M-Pesa.\n";
     echo "====================================================\n";
@@ -49,7 +49,7 @@ $response = wp_remote_get($base_url . '/oauth/v1/generate?grant_type=client_cred
 ));
 
 if (is_wp_error($response)) {
-    echo "❌ OAuth Connection Failed: " . $response->get_error_message() . "\n";
+    echo " OAuth Connection Failed: " . $response->get_error_message() . "\n";
     exit(1);
 }
 
@@ -57,9 +57,9 @@ $code = wp_remote_retrieve_response_code($response);
 $body = json_decode(wp_remote_retrieve_body($response), true);
 
 if ($code === 200 && !empty($body['access_token'])) {
-    echo "✅ OAuth Authentication Succeeded! Access token acquired (expires in {$body['expires_in']}s).\n";
+    echo " OAuth Authentication Succeeded! Access token acquired (expires in {$body['expires_in']}s).\n";
 } else {
-    echo "❌ OAuth Authentication Failed (HTTP $code): " . ($body['errorMessage'] ?? 'Check Consumer Key & Secret') . "\n";
+    echo " OAuth Authentication Failed (HTTP $code): " . ($body['errorMessage'] ?? 'Check Consumer Key & Secret') . "\n";
 }
 
 echo "====================================================\n";

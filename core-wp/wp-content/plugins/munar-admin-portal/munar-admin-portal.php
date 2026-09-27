@@ -176,7 +176,7 @@ class Munar_Admin_Portal {
         if ( $pending > 0 ) {
             $admin_bar->add_menu( array(
                 'id'    => 'munar-mpesa-alert',
-                'title' => sprintf( '⚡ <span style="background:#047857; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:11px;">%d M-Pesa To Verify</span>', $pending ),
+                'title' => sprintf( '<span style="background:#047857; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:11px;">%d M-Pesa To Verify</span>', $pending ),
                 'href'  => admin_url( 'admin.php?page=munar-mpesa-desk' ),
                 'meta'  => array( 'title' => 'Orders awaiting Lipa na M-Pesa payment confirmation' ),
             ) );
@@ -185,7 +185,7 @@ class Munar_Admin_Portal {
         if ( $low_stock > 0 ) {
             $admin_bar->add_menu( array(
                 'id'    => 'munar-stock-alert',
-                'title' => sprintf( '⚠ <span style="background:#D97706; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:11px;">%d Low Stock (≤2)</span>', $low_stock ),
+                'title' => sprintf( '<span style="background:#D97706; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold; font-size:11px;">%d Low Stock (≤2)</span>', $low_stock ),
                 'href'  => admin_url( 'admin.php?page=munar-inventory&filter=low_stock' ),
                 'meta'  => array( 'title' => 'Products at or below 2 units' ),
             ) );
@@ -262,7 +262,7 @@ class Munar_Admin_Portal {
             <!-- Dedicated Order Attention Bar (Click -> Handle It) -->
             <div class="munar-attention-bar">
                 <div class="attention-title">
-                    <span class="pulse-icon">⚡</span>
+                    <span class="pulse-icon"></span>
                     <h3>Action Required:</h3>
                 </div>
                 <div class="attention-cards-wrapper">
@@ -323,15 +323,15 @@ class Munar_Admin_Portal {
                     <div class="health-breakdown">
                         <div class="health-pill-item">
                             <span class="health-dot dot-green"></span>
-                            <span class="health-txt">🟢 <strong><?php echo esc_html( self::get_healthy_stock_count() ); ?></strong> Healthy</span>
+                            <span class="health-txt"><strong><?php echo esc_html( self::get_healthy_stock_count() ); ?></strong> Healthy</span>
                         </div>
                         <div class="health-pill-item">
                             <span class="health-dot dot-orange"></span>
-                            <span class="health-txt">🟠 <strong><?php echo esc_html( $low_stock_count ); ?></strong> Low Stock (≤2)</span>
+                            <span class="health-txt"><strong><?php echo esc_html( $low_stock_count ); ?></strong> Low Stock (≤2)</span>
                         </div>
                         <div class="health-pill-item">
                             <span class="health-dot dot-red"></span>
-                            <span class="health-txt">🔴 <strong><?php echo esc_html( $out_stock_count ); ?></strong> Out of Stock</span>
+                            <span class="health-txt"><strong><?php echo esc_html( $out_stock_count ); ?></strong> Out of Stock</span>
                         </div>
                     </div>
                 </div>
@@ -350,7 +350,7 @@ class Munar_Admin_Portal {
                 <!-- Left: Orders Requiring Attention -->
                 <div class="munar-card-box">
                     <div class="box-header">
-                        <h2>⚡ Orders Requiring Attention</h2>
+                        <h2>Orders Requiring Attention</h2>
                         <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=shop_order' ) ); ?>" class="box-link">All Orders &rarr;</a>
                     </div>
                     
@@ -403,11 +403,11 @@ class Munar_Admin_Portal {
                                             <div class="row-actions-cluster">
                                                 <?php if ( in_array( $status, array( 'on-hold', 'pending' ) ) ) : ?>
                                                     <button class="btn-verify-quick" data-order-id="<?php echo esc_attr( $o_id ); ?>">
-                                                        ✓ Verify M-Pesa
+                                                        Verify M-Pesa
                                                     </button>
                                                 <?php elseif ( 'processing' === $status ) : ?>
                                                     <button class="btn-complete-quick" data-order-id="<?php echo esc_attr( $o_id ); ?>">
-                                                        ✓ Mark Delivered
+                                                        Mark Delivered
                                                     </button>
                                                 <?php endif; ?>
                                                 <a href="<?php echo esc_url( $o->get_edit_order_url() ); ?>" class="btn-view-order">
@@ -430,7 +430,7 @@ class Munar_Admin_Portal {
                 <!-- Right: Low Stock Alerts & Inventory Health -->
                 <div class="munar-card-box">
                     <div class="box-header">
-                        <h2>⚠ Inventory Health Overview</h2>
+                        <h2>Inventory Health Overview</h2>
                         <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory' ) ); ?>" class="box-link">Inventory Center &rarr;</a>
                     </div>
 
@@ -450,11 +450,11 @@ class Munar_Admin_Portal {
                                     </div>
                                     <div class="stock-item-controls">
                                         <?php if ( $stock === 0 || ! $prod->is_in_stock() ) : ?>
-                                            <span class="stock-pill pill-out">🔴 Out of Stock</span>
+                                            <span class="stock-pill pill-out">Out of Stock</span>
                                         <?php elseif ( $stock <= 2 ) : ?>
-                                            <span class="stock-pill pill-low">🟠 Low Stock (<?php echo esc_html( $stock ); ?> Left)</span>
+                                            <span class="stock-pill pill-low">Low Stock (<?php echo esc_html( $stock ); ?> Left)</span>
                                         <?php else : ?>
-                                            <span class="stock-pill pill-ok">🟢 Healthy (<?php echo esc_html( $stock ); ?> In Stock)</span>
+                                            <span class="stock-pill pill-ok">Healthy (<?php echo esc_html( $stock ); ?> In Stock)</span>
                                         <?php endif; ?>
                                         <button class="btn-quick-adjust" data-product-id="<?php echo esc_attr( $p_id ); ?>" data-current="<?php echo esc_attr( $stock ); ?>">
                                             + Restock
@@ -466,7 +466,7 @@ class Munar_Admin_Portal {
                     <?php else : ?>
                         <div class="munar-empty-state">
                             <span class="dashicons dashicons-shield-alt" style="font-size:32px; color:#047857; margin-bottom:8px;"></span>
-                            <p>Inventory is 🟢 Healthy! No items are currently at or below the 2-unit threshold.</p>
+                            <p>Inventory is Healthy! No items are currently at or below the 2-unit threshold.</p>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -550,7 +550,7 @@ class Munar_Admin_Portal {
                                     <td>
                                         <div class="row-actions-cluster">
                                             <button class="btn-verify-large" data-order-id="<?php echo esc_attr( $o_id ); ?>">
-                                                ✓ Verify & Advance to Processing
+                                                Verify & Advance to Processing
                                             </button>
                                             <a href="https://wa.me/<?php echo esc_attr( preg_replace('/[^0-9]/', '', $phone) ); ?>?text=Hello%20<?php echo esc_attr( urlencode( $o->get_billing_first_name() ) ); ?>,%20this%20is%20Munar%20Atelier%20inquiring%20about%20Order%20%23MNR-<?php echo esc_attr( $o_id ); ?>%20(KSh%20<?php echo esc_attr( $total ); ?>)." target="_blank" class="btn-whatsapp-chat">
                                                 WhatsApp Patron
@@ -619,13 +619,13 @@ class Munar_Admin_Portal {
             <div class="munar-tab-bar">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=all' ) ); ?>" class="tab-item <?php echo 'all' === $filter ? 'tab-active' : ''; ?>">All Pieces</a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=healthy' ) ); ?>" class="tab-item <?php echo 'healthy' === $filter ? 'tab-active' : ''; ?>">
-                    🟢 Healthy Stock <span class="tab-count"><?php echo esc_html( self::get_healthy_stock_count() ); ?></span>
+                    Healthy Stock <span class="tab-count"><?php echo esc_html( self::get_healthy_stock_count() ); ?></span>
                 </a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=low_stock' ) ); ?>" class="tab-item <?php echo 'low_stock' === $filter ? 'tab-active' : ''; ?>">
-                    🟠 Low Stock (≤2 units) <span class="tab-count"><?php echo esc_html( self::get_low_stock_count() ); ?></span>
+                    Low Stock (≤2 units) <span class="tab-count"><?php echo esc_html( self::get_low_stock_count() ); ?></span>
                 </a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=munar-inventory&filter=out_of_stock' ) ); ?>" class="tab-item <?php echo 'out_of_stock' === $filter ? 'tab-active' : ''; ?>">
-                    🔴 Out of Stock <span class="tab-count"><?php echo esc_html( self::get_out_of_stock_count() ); ?></span>
+                    Out of Stock <span class="tab-count"><?php echo esc_html( self::get_out_of_stock_count() ); ?></span>
                 </a>
             </div>
 
@@ -669,11 +669,11 @@ class Munar_Admin_Portal {
                                 </td>
                                 <td>
                                     <?php if ( ! $p->is_in_stock() || $qty === 0 ) : ?>
-                                        <span class="stock-pill pill-out">🔴 Out of Stock</span>
+                                        <span class="stock-pill pill-out">Out of Stock</span>
                                     <?php elseif ( $qty !== null && $qty <= 2 ) : ?>
-                                        <span class="stock-pill pill-low">🟠 Low Stock (<?php echo esc_html( $qty ); ?> Left)</span>
+                                        <span class="stock-pill pill-low">Low Stock (<?php echo esc_html( $qty ); ?> Left)</span>
                                     <?php else : ?>
-                                        <span class="stock-pill pill-ok">🟢 Healthy (<?php echo esc_html( $qty ); ?> Units)</span>
+                                        <span class="stock-pill pill-ok">Healthy (<?php echo esc_html( $qty ); ?> Units)</span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -841,12 +841,12 @@ class Munar_Admin_Portal {
                         ?>
                             <tr>
                                 <td><strong><?php echo esc_html( $p->get_name() ); ?></strong></td>
-                                <td><?php echo $has_img ? '<span class="qc-check">✓</span>' : '<span class="qc-fail">✗ Missing</span>'; ?></td>
-                                <td><?php echo $has_price ? '<span class="qc-check">✓</span>' : '<span class="qc-fail">✗ Missing</span>'; ?></td>
-                                <td><?php echo $has_sku ? '<span class="qc-check">✓</span>' : '<span class="qc-fail">✗ Missing</span>'; ?></td>
-                                <td><?php echo $has_cat ? '<span class="qc-check">✓</span>' : '<span class="qc-fail">✗ Missing</span>'; ?></td>
-                                <td><?php echo $has_desc ? '<span class="qc-check">✓</span>' : '<span class="qc-fail">✗ Missing</span>'; ?></td>
-                                <td><?php echo $has_stock ? '<span class="qc-check">✓</span>' : '<span class="qc-fail">✗</span>'; ?></td>
+                                <td><?php echo $has_img ? '<span class="qc-check">Passed</span>' : '<span class="qc-fail">Missing</span>'; ?></td>
+                                <td><?php echo $has_price ? '<span class="qc-check">Passed</span>' : '<span class="qc-fail">Missing</span>'; ?></td>
+                                <td><?php echo $has_sku ? '<span class="qc-check">Passed</span>' : '<span class="qc-fail">Missing</span>'; ?></td>
+                                <td><?php echo $has_cat ? '<span class="qc-check">Passed</span>' : '<span class="qc-fail">Missing</span>'; ?></td>
+                                <td><?php echo $has_desc ? '<span class="qc-check">Passed</span>' : '<span class="qc-fail">Missing</span>'; ?></td>
+                                <td><?php echo $has_stock ? '<span class="qc-check">Passed</span>' : '<span class="qc-fail">Missing</span>'; ?></td>
                                 <td>
                                     <?php if ( $is_complete ) : ?>
                                         <span class="status-badge status-completed">Ready for Runway</span>
@@ -1778,7 +1778,7 @@ class Munar_Admin_Portal {
                         nonce: nonce
                     }, function(res) {
                         if (res.success) {
-                            btn.replaceWith('<span class="status-badge status-completed">✓ Verified</span>');
+                            btn.replaceWith('<span class="status-badge status-completed">Verified</span>');
                             $('#order-row-' + orderId + ' .status-badge').removeClass('status-on-hold status-pending').addClass('status-processing').text('Processing');
                         } else {
                             alert(res.data || 'Verification failed');
@@ -1826,7 +1826,7 @@ class Munar_Admin_Portal {
                         nonce: nonce
                     }, function(res) {
                         if (res.success) {
-                            btn.replaceWith('<span class="status-badge status-completed">✓ Delivered</span>');
+                            btn.replaceWith('<span class="status-badge status-completed">Delivered</span>');
                             $('#order-row-' + orderId + ' .status-badge').removeClass('status-processing').addClass('status-completed').text('Completed');
                         }
                     });

@@ -5,7 +5,7 @@
 define('WP_USE_THEMES', false);
 require_once('/opt/lampp/htdocs/wordpress/wp-load.php');
 
-echo "🎨 Updating Pages with Munar Luxury Editorial Content...\n";
+echo " Updating Pages with Munar Luxury Editorial Content...\n";
 
 // 1. About Page (ID 17)
 $about_content = '
@@ -80,7 +80,7 @@ wp_update_post(array(
     'ID'           => 17,
     'post_content' => $about_content,
 ));
-echo "✅ About page updated with Munar Atelier story!\n";
+echo " About page updated with Munar Atelier story!\n";
 
 // 2. Contact Page (ID 7)
 $contact_content = '
@@ -187,7 +187,7 @@ wp_update_post(array(
     'ID'           => 7,
     'post_content' => $contact_content,
 ));
-echo "✅ Contact page updated with Munar Atelier fitting booking form!\n";
+echo " Contact page updated with Munar Atelier fitting booking form!\n";
 
 // 3. Lookbook Page (ID 212)
 $lookbook_content = '
@@ -270,4 +270,4 @@ wp_update_post(array(
     'ID'           => 212,
     'post_content' => $lookbook_content,
 ));
-echo "✅ Lookbook page updated with 2026 runway gallery!\n";
+echo " Lookbook page updated with 2026 runway gallery!\n";

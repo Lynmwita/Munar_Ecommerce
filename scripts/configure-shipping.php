@@ -5,7 +5,7 @@
 define('WP_USE_THEMES', false);
 require_once('/opt/lampp/htdocs/wordpress/wp-load.php');
 
-echo "🚚 Configuring Luxury Shipping Zones...\n";
+echo " Configuring Luxury Shipping Zones...\n";
 
 $zones = WC_Shipping_Zones::get_zones();
 echo "Existing zones count: " . count($zones) . "\n";
@@ -55,7 +55,7 @@ if (empty($zones)) {
         update_option($kenya_flat->get_instance_option_key(), $kenya_flat->instance_settings);
     }
 
-    echo "✅ Created Nairobi Metropolitan and Rest of Kenya VIP shipping zones!\n";
+    echo " Created Nairobi Metropolitan and Rest of Kenya VIP shipping zones!\n";
 } else {
     echo "ℹ️ Shipping zones already configured:\n";
     foreach ($zones as $z) {
