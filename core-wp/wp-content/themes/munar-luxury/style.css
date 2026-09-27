@@ -849,3 +849,166 @@ h1, h2, h3, h4, .font-serif, .editorial-heading {
   }
 }
 
+/* ==========================================================================
+   Category & Archive Product Grid — Balanced Portrait Editorial Layout
+   (Scoped to category archives, shop catalog & tag pages; excludes homepage)
+   ========================================================================== */
+
+body:not(.home).tax-product_cat ul.products,
+body:not(.home).post-type-archive-product ul.products,
+body:not(.home).tax-product_tag ul.products,
+body:not(.home).woocommerce-shop ul.products,
+body:not(.home).woocommerce-page.archive ul.products {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+    max-width: 1200px !important;
+    margin: 0 auto 3.5rem auto !important;
+    padding: 0 !important;
+    list-style: none !important;
+    float: none !important;
+    width: 100% !important;
+}
+
+body:not(.home).tax-product_cat ul.products::before,
+body:not(.home).tax-product_cat ul.products::after,
+body:not(.home).post-type-archive-product ul.products::before,
+body:not(.home).post-type-archive-product ul.products::after,
+body:not(.home).woocommerce-page.archive ul.products::before,
+body:not(.home).woocommerce-page.archive ul.products::after {
+    display: none !important;
+}
+
+/* Individual Card: Slender portrait rectangle (narrower width, elongated length) */
+body:not(.home).tax-product_cat ul.products li.product,
+body:not(.home).post-type-archive-product ul.products li.product,
+body:not(.home).tax-product_tag ul.products li.product,
+body:not(.home).woocommerce-shop ul.products li.product,
+body:not(.home).woocommerce-page.archive ul.products li.product {
+    width: 100% !important;
+    max-width: 275px !important;
+    margin: 0 auto !important;
+    float: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(230, 223, 213, 0.8) !important;
+    border-radius: 0 !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+body:not(.home).tax-product_cat ul.products li.product:hover,
+body:not(.home).post-type-archive-product ul.products li.product:hover,
+body:not(.home).tax-product_tag ul.products li.product:hover,
+body:not(.home).woocommerce-shop ul.products li.product:hover,
+body:not(.home).woocommerce-page.archive ul.products li.product:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--munar-gold) !important;
+    box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Elongated Portrait Image Wrapper */
+body:not(.home).tax-product_cat ul.products li.product .woocommerce-loop-product__link,
+body:not(.home).post-type-archive-product ul.products li.product .woocommerce-loop-product__link,
+body:not(.home).woocommerce-page.archive ul.products li.product .woocommerce-loop-product__link {
+    display: block !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+body:not(.home).tax-product_cat ul.products li.product img,
+body:not(.home).post-type-archive-product ul.products li.product img,
+body:not(.home).tax-product_tag ul.products li.product img,
+body:not(.home).woocommerce-shop ul.products li.product img,
+body:not(.home).woocommerce-page.archive ul.products li.product img {
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 3 / 4.2 !important;
+    object-fit: cover !important;
+    object-position: top center !important;
+    margin: 0 !important;
+    display: block !important;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body:not(.home).tax-product_cat ul.products li.product:hover img,
+body:not(.home).post-type-archive-product ul.products li.product:hover img,
+body:not(.home).woocommerce-page.archive ul.products li.product:hover img {
+    transform: scale(1.04) !important;
+}
+
+/* Card Button: Full-width clean minimalist button without wrapping */
+body:not(.home).tax-product_cat ul.products li.product .button,
+body:not(.home).post-type-archive-product ul.products li.product .button,
+body:not(.home).woocommerce-page.archive ul.products li.product .button,
+body:not(.home).tax-product_cat ul.products li.product .btn-munar-primary,
+body:not(.home).post-type-archive-product ul.products li.product .btn-munar-primary,
+body:not(.home).woocommerce-page.archive ul.products li.product .btn-munar-primary {
+    background-color: var(--munar-black) !important;
+    color: #ffffff !important;
+    border: 1px solid var(--munar-black) !important;
+    border-radius: 0px !important;
+    text-transform: uppercase !important;
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.14em !important;
+    padding: 10px 12px !important;
+    text-align: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    line-height: 1.4 !important;
+    white-space: nowrap !important;
+}
+
+body:not(.home).tax-product_cat ul.products li.product .button:hover,
+body:not(.home).post-type-archive-product ul.products li.product .button:hover,
+body:not(.home).woocommerce-page.archive ul.products li.product .button:hover,
+body:not(.home).tax-product_cat ul.products li.product .btn-munar-primary:hover,
+body:not(.home).post-type-archive-product ul.products li.product .btn-munar-primary:hover,
+body:not(.home).woocommerce-page.archive ul.products li.product .btn-munar-primary:hover {
+    background-color: var(--munar-gold) !important;
+    border-color: var(--munar-gold) !important;
+    color: #ffffff !important;
+}
+
+/* Responsive Grid Breakpoints for Category Archives */
+@media (max-width: 1120px) {
+    body:not(.home).tax-product_cat ul.products,
+    body:not(.home).post-type-archive-product ul.products,
+    body:not(.home).tax-product_tag ul.products,
+    body:not(.home).woocommerce-shop ul.products,
+    body:not(.home).woocommerce-page.archive ul.products {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 20px !important;
+    }
+}
+
+@media (max-width: 840px) {
+    body:not(.home).tax-product_cat ul.products,
+    body:not(.home).post-type-archive-product ul.products,
+    body:not(.home).tax-product_tag ul.products,
+    body:not(.home).woocommerce-shop ul.products,
+    body:not(.home).woocommerce-page.archive ul.products {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 16px !important;
+    }
+}
+
+@media (max-width: 520px) {
+    body:not(.home).tax-product_cat ul.products,
+    body:not(.home).post-type-archive-product ul.products,
+    body:not(.home).tax-product_tag ul.products,
+    body:not(.home).woocommerce-shop ul.products,
+    body:not(.home).woocommerce-page.archive ul.products {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        max-width: 320px !important;
+    }
+}
+

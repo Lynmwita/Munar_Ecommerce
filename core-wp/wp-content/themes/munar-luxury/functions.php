@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-define( 'MUNAR_THEME_VERSION', '1.0.0' );
+define( 'MUNAR_THEME_VERSION', '1.0.2' );
 define( 'MUNAR_THEME_DIR', get_template_directory() );
 define( 'MUNAR_THEME_URI', get_template_directory_uri() );
 
